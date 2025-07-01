@@ -1,1 +1,3 @@
-print('teste')
+import weekdays
+
+weekdays.weekdays()
