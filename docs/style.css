@@ -19,3 +19,13 @@ p {
   color: var(--green);
   font-size: 1.2rem;
 }
+
+/* Flexbox */
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Before */
