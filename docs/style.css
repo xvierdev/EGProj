@@ -1,0 +1,21 @@
+/* Variáveis */
+:root {
+  --base: #11111b;
+  --text: #cdd6f4;
+  --green: #a6e3a1;
+  --mono: "JetBrains Mono";
+}
+
+/* Geral */
+body {
+  background-color: var(--base);
+  color: var(--text);
+  margin: 0;
+  padding: 20px;
+  font-family: var(--mono), "Courier New", Courier, monospace;
+}
+
+p {
+  color: var(--green);
+  font-size: 1.2rem;
+}
