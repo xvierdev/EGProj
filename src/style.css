@@ -3,6 +3,7 @@
   --base: #11111b;
   --text: #cdd6f4;
   --green: #a6e3a1;
+  --link: #ffee00;
   --mono: "JetBrains Mono";
 }
 
@@ -29,3 +30,11 @@ p {
 }
 
 /* Before */
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
