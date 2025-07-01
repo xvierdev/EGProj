@@ -1,3 +1,3 @@
 # EGProj
 
-Projeto de inglês em python
+Github Pages

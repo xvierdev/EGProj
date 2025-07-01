@@ -1,3 +1,0 @@
-import weekdays
-
-weekdays.weekdays()
