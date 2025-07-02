@@ -6,7 +6,7 @@ def main_menu():
     This function provides a menu with options to show weekdays or exit the program.
     It runs in a loop until the user chooses to exit.
     """
-    print("Welcome to the Weekdays App!")
+    print("Welcome to the English App!")
     print("Press Ctrl+C to exit at any time.")
     try:
         while True:
