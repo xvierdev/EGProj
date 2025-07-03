@@ -10,16 +10,6 @@ CREATE TABLE IF NOT EXISTS database_color (
     color_Portuguese TEXT        
 )
 """)
-def create_color_database():
-    colors_english = ["Black", "White", "Red", "Blue", "Yellow", "Green", "Orange", "Pink", "Purple", "Brown", "Gray"]
-    colors_portuguese = ["Preto", "Branco", "Vermelho", "Azul", "Amarelo", "Verde", "Laranja", "Rosa", "Roxo", "Marrom", "Cinza"]
-    for colors_e, colors_p in zip(colors_english, colors_portuguese):
-            cursor.execute("INSERT INTO database_color (color_english,color_Portuguese) values (?,?)",(colors_e, colors_p))  
-            conexao.commit()
-
-def clear_color_database():
-        cursor.execute("DELETE FROM database_color")
-        conexao.commit()
 
 while True:
     print("╔═════════════════════════════════╗")
