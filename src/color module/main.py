@@ -21,7 +21,7 @@ while True:
         break
 
     elif menu == "1" :
-        print("como funciona o jogo ?\nira aparecer uma coe em ingles e voçe deve digitar sua tradução para o portugues \no jogo vai começar")
+        print("como funciona o jogo ?\ira aparecer uma coe em ingles e voçe deve digitar sua tradução para o portugues \o jogo vai começar")
         while True :
             cursor.execute("SELECT color_english, color_Portuguese FROM database_color")       
             color_r = cursor.fetchall()
