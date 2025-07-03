@@ -1,4 +1,5 @@
-import weekdays, number
+from modules import weekdays, number, colors
+
 
 def main_menu():
     """Display a simple menu to the user and handle their choices.
@@ -13,13 +14,16 @@ def main_menu():
             print("\nMenu:")
             print("1. Show weekdays")
             print("2. Show numbers")
-            print("3. Exit")
+            print("3. Show colors")
+            print("4. Exit")
             choice = input("Enter your choice: ")
             if choice == '1':
                 weekdays.weekdays()
             elif choice == '2':
                 number.numbers()
             elif choice == '3':
+                colors.colors()
+            elif choice == '4':
                 print("Goodbye!")
                 break
             else:
