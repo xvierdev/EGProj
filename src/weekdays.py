@@ -1,13 +1,11 @@
 import random
-random_number = random.randint(1, 7)
 # points = 0
 
 def weekdays():
     """
     Escolhe um dia da semana aleatório e pede para traduzir do inglês pro português
     """
-
-
+    random_number = random.randint(1, 7)
     match random_number:
 
         case 1:
