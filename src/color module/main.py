@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS database_color (
     color_Portuguese TEXT        
 )
 """)
-
 while True:
     print("╔═════════════════════════════════╗")
     print("║          jogo das cores         ║")
@@ -21,7 +20,7 @@ while True:
         break
 
     elif menu == "1" :
-        print("como funciona o jogo ?\ira aparecer uma coe em ingles e voçe deve digitar sua tradução para o portugues \o jogo vai começar")
+        print("como funciona o jogo ?\nira aparecer uma coe em ingles e voçe deve digitar sua tradução para o portugues \no jogo vai começar")
         while True :
             cursor.execute("SELECT color_english, color_Portuguese FROM database_color")       
             color_r = cursor.fetchall()
@@ -32,29 +31,12 @@ while True:
             if response.lower() == color_portuguese.lower() :
                 print ("correto +1 ponto")
                 points += 1
-                if points == "10":
+                if points == 10:
+                     print("!parabems! voçe completou esse quiz ")
                      break
             else:
-                 print("resposta incorreta, a resposta correta era :", color_portuguese)
+                 print("resposta incorreta -1 ponto, a resposta correta era :", color_portuguese)
                  break
 
     elif menu == "2" :
-        print("sua pontuação é:", points)
-        create_color_database()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        print("como funciona ?\na cada vez que acerta uma pergunta ganha um ponto e a cada vez que erra uma quastão perde um ponto\nsua pontuação atual é de:", points)
