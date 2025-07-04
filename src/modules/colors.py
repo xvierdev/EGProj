@@ -51,7 +51,7 @@ def colors():
                 if response.lower() == color_portuguese.lower() :
                     print ("correto +1 ponto")
                     points += 1
-                    print(points)
+                    print("pontos :",points)
                     if points == 10:
                         print("!parabems! voçe completou esse quiz ")
                         break
