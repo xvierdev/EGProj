@@ -27,6 +27,7 @@ def completion():
 def colors():
     global points
     while True:
+        completion()
         boot()
         print("╔═════════════════════════════════╗")
         print("║          jogo das cores         ║")
@@ -60,7 +61,7 @@ def colors():
 
         elif menu == "2" :
             print("como funciona ?\na cada vez que acerta uma pergunta ganha um ponto e a cada vez que erra uma quastão perde um ponto\nsua pontuação atual é de:", points)
-#apagar depois teste
+        
 colors()
 
 
