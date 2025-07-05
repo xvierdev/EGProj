@@ -43,8 +43,8 @@ def colors():
 
         elif menu == "1":
             print("How does the game work?\n"
-            "a window will appear in English and you must type "
-            "your translation into Portuguese\nthe game will start")
+                  "a window will appear in English and you must type "
+                  "your translation into Portuguese\nthe game will start")
             while True:
                 cursor.execute(
                     "SELECT color_english,"
@@ -68,10 +68,10 @@ def colors():
 
         elif menu == "2":
             print("How does it work?")
-            print("Every time you get a question right you earn "
-            "a point, every time you get a question wrong you lose a point")
-            print("your current score is:", points)
+            print("Every time you get a question right you earn a point")
+            print("Every time you get a question wrong you lose a point")
+            print("Current score is:", points)
 
 
-if __name__  ==  "__main__" :
+if __name__ == "__main__":
     colors()

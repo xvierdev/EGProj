@@ -1,4 +1,4 @@
-from modules import weekdays, number, colors
+from modules import weekdays, number, colors, geomtest
 
 
 def main_menu():
@@ -15,7 +15,8 @@ def main_menu():
             print("1. Show weekdays")
             print("2. Show numbers")
             print("3. Show colors")
-            print("4. Exit")
+            print("4. Geomtest")
+            print("q. Quit")
             choice = input("Enter your choice: ")
             if choice == '1':
                 weekdays.weekdays()
@@ -24,6 +25,8 @@ def main_menu():
             elif choice == '3':
                 colors.colors()
             elif choice == '4':
+                geomtest.geomtest()
+            elif choice == 'q':
                 print("Goodbye!")
                 break
             else:

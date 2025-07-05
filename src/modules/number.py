@@ -1,5 +1,5 @@
 from num2words import num2words
-import random
+from random import randint
 
 
 def numbers():
@@ -8,9 +8,9 @@ def numbers():
         level = 2
 
         if level <= 1:  # Quanto maior o nível, maior a margem
-            randomNumber = random.randint(0, 9)
+            randomNumber = randint(0, 9)
         else:
-            randomNumber = random.randint(0, 1000)
+            randomNumber = randint(0, 1000)
 
         number = num2words(randomNumber)
         numberBR = num2words(randomNumber, lang='pt_BR')
@@ -23,3 +23,7 @@ def numbers():
         else:
             print("Você errou")
             input()
+
+
+if __name__ == '__main__':
+    numbers()

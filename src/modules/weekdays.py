@@ -1,4 +1,4 @@
-import random
+from random import choice
 
 
 def weekdays():
@@ -12,9 +12,8 @@ def weekdays():
             'wednesday': 'quarta',
             'thursday': 'quinta',
             'friday': 'sexta',
-            'saturday': 'sabado'}
-    random_number = random.randint(0, 6)
-    day = list(days.keys())[random_number]
+            'saturday': 'sábado'}
+    day = choice(list(days.keys()))
     msg = f'the translation of {day} is: '
     answer = input(msg).strip().lower()
     clean_aswer = answer.replace('-', ' ').split(' ')[0]
