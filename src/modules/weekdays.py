@@ -1,7 +1,3 @@
-import random
-# points = 0
-
-
 def weekdays():
     """
     Escolhe um dia da semana aleatório e pede para traduzir
