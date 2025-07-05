@@ -39,7 +39,6 @@ def colors():
         print("(q)sair,(1)iniciar, (2)pontuação")
         menu = input("selecione um opção :")
         if menu == "q":
-            completion()
             break
 
         elif menu == "1":
