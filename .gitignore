@@ -1,0 +1,4 @@
+# Por algum motivo preciso disso para ignorar tudo que não é web
+
+src/
+*venv
