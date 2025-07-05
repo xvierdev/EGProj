@@ -42,9 +42,9 @@ def colors():
             break
 
         elif menu == "1":
-            print("como funciona o jogo?\n"
-                  "ira aparecer uma coe em ingles e você deve digitar "
-                  "sua tradução para o portugues \no jogo vai começar")
+            print("How does the game work?\n"
+            "a window will appear in English and you must type "
+            "your translation into Portuguese\nthe game will start")
             while True:
                 cursor.execute(
                     "SELECT color_english,"
@@ -54,7 +54,7 @@ def colors():
                 color_english, color_portuguese = random_colors
                 print("qual a tradução dessa cor:", color_english)
                 response = str(input(">"))
-                if response.lower() == color_portuguese.lower():
+                if response.lower().strip() == color_portuguese.lower():
                     print("correto +1 ponto")
                     points += 1
                     print("pontos :", points)
@@ -67,10 +67,11 @@ def colors():
                     print(f'A resposta era: {color_portuguese}')
 
         elif menu == "2":
-            print("Como funciona?")
-            print("Cada vez que acerta uma pergunta ganha "
-                  "um ponto, cada vez que erra uma quastão perde um ponto")
-            print("sua pontuação atual é de:", points)
+            print("How does it work?")
+            print("Every time you get a question right you earn "
+            "a point, every time you get a question wrong you lose a point")
+            print("your current score is:", points)
 
 
-colors()
+if __name__  ==  "__main__" :
+    colors()
