@@ -1,9 +1,11 @@
 import random
 # points = 0
 
+
 def weekdays():
     """
-    Escolhe um dia da semana aleatório e pede para traduzir do inglês pro português
+    Escolhe um dia da semana aleatório e pede para traduzir
+    do inglês pro português
     """
     random_number = random.randint(1, 7)
     match random_number:
@@ -22,7 +24,10 @@ def weekdays():
 
         case 2:
             question2 = input("the translation of monday is: ")
-            if question2 in ["segunda", "segunda-feira", "Segunda", "Segunda-feira"]:
+            if question2 in ["segunda",
+                             "segunda-feira",
+                             "Segunda",
+                             "Segunda-feira"]:
                 print("is correct")
                 print("one more point")
                 # points += 1
@@ -46,7 +51,10 @@ def weekdays():
 
         case 4:
             question4 = input("the translation of wednesday is: ")
-            if question4 in ["quarta", "quarta-feira", "Quarta", "Quarta-feira"]:
+            if question4 in ["quarta",
+                             "quarta-feira",
+                             "Quarta",
+                             "Quarta-feira"]:
                 print("is correct")
                 print("one more point")
                 # points += 1
@@ -58,7 +66,10 @@ def weekdays():
 
         case 5:
             question5 = input("the translation of thursday is: ")
-            if question5 in ["quinta", "quinta-feira", "Quinta", "Quinta-feira"]:
+            if question5 in ["quinta",
+                             "quinta-feira",
+                             "Quinta",
+                             "Quinta-feira"]:
                 print("is correct")
                 print("one more point")
                 # points += 1
@@ -92,4 +103,6 @@ def weekdays():
                 print("minus one point")
                 # points -= 1
 
-    # print("total points", points)
+
+if __name__ == '__main__':
+    weekdays()

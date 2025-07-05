@@ -2,9 +2,9 @@ from modules import weekdays, number, colors
 
 
 def main_menu():
-    """Display a simple menu to the user and handle their choices.
-
-    This function provides a menu with options to show weekdays or exit the program.
+    """Display a simple menu to the user and handle their choices.F
+    This function provides a menu with options to show weekdays or
+    exit the program.
     It runs in a loop until the user chooses to exit.
     """
     print("Welcome to the English App!")
@@ -30,5 +30,7 @@ def main_menu():
                 print("Invalid choice. Please try again.")
     except KeyboardInterrupt:
         print("\nExiting the program.")
+
+
 if __name__ == "__main__":
     main_menu()

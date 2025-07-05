@@ -1,81 +1,76 @@
 import random
 
+
 def geomtest():
 
- random_geo = random.randint(1, 5)
+    random_geo = random.randint(1, 5)
 
- match random_geo:
-   
-  
-  
+    match random_geo:
 
-  case 1:
-   
-    
-     quest1 = input("A tradução de 'Square' é: " )
-   
-     if quest1 == 'quadrado':
-      print('Correct!')
+        case 1:
 
-     elif quest1 == 'Quadrado':
-       print('Correct!') 
+            quest1 = input("A tradução de 'Square' é: ")
 
-     else: print('Incorrect!\nCorrect answer: Quadrado')
+            if quest1 == 'quadrado':
+                print('Correct!')
 
-  
-  
-  case 2:
+            elif quest1 == 'Quadrado':
+                print('Correct!')
 
-     quest2 = input("A tradução de 'Triangle' é: ")
+            else:
+                print('Incorrect!\nCorrect answer: Quadrado')
 
-     if quest2 == 'Triângulo':
-       print('Correct!')
-    
-     elif quest2 == 'triângulo':
-       print('Correct!')
+        case 2:
 
-     else: print("Incorrect!\n Correct answer: Triângulo")
+            quest2 = input("A tradução de 'Triangle' é: ")
 
+            if quest2 == 'Triângulo':
+                print('Correct!')
 
+            elif quest2 == 'triângulo':
+                print('Correct!')
 
-  case 3:
-     
-     quest3 = input("A tradução de 'Circle' é: ")
+            else:
+                print("Incorrect!\n Correct answer: Triângulo")
 
-     if quest3 == 'Círculo':
-       print('Correct!')
+        case 3:
 
-     elif quest3 == 'círculo':
-       print('Correct!')
+            quest3 = input("A tradução de 'Circle' é: ")
 
-     else: print('Incorrect!\nCorrect answer: Círculo')
+            if quest3 == 'Círculo':
+                print('Correct!')
 
+            elif quest3 == 'círculo':
+                print('Correct!')
 
+            else:
+                print('Incorrect!\nCorrect answer: Círculo')
 
-  case 4:
-    
-    quest4 = input("A tradução de 'Rectangle' é: ")
+        case 4:
 
-    if quest4 == 'Retângulo':
-      print('Correct!')
+            quest4 = input("A tradução de 'Rectangle' é: ")
 
-    elif quest4 == 'retângulo':
-      print('Correct!')
+            if quest4 == 'Retângulo':
+                print('Correct!')
 
-    else: print('Incorrect!\nCorrect answer: Retângulo')
+            elif quest4 == 'retângulo':
+                print('Correct!')
 
+            else:
+                print('Incorrect!\nCorrect answer: Retângulo')
 
+        case 5:
 
-  case 5:
-     
-     quest5 = input("A tradução de 'Pentagon' é: ")
+            quest5 = input("A tradução de 'Pentagon' é: ")
 
-     if quest5 == 'Pentágono':
-       print('Correct!')
+            if quest5 == 'Pentágono':
+                print('Correct!')
 
-     elif quest5 == 'pentágono':
-       print('Correct!')
+            elif quest5 == 'pentágono':
+                print('Correct!')
 
-     else: print('Incorrect\nCorrect answer: Pentágono')
+            else:
+                print('Incorrect\nCorrect answer: Pentágono')
+
 
 geomtest()
