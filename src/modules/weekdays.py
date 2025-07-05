@@ -1,3 +1,6 @@
+import random
+
+
 def weekdays():
     """
     Escolhe um dia da semana aleatório e pede para traduzir
@@ -10,7 +13,7 @@ def weekdays():
             'thursday': 'quinta',
             'friday': 'sexta',
             'saturday': 'sabado'}
-    random_number = 5  # random.randint(0, 6)
+    random_number = random.randint(0, 6)
     day = list(days.keys())[random_number]
     msg = f'the translation of {day} is: '
     answer = input(msg).strip().lower()
