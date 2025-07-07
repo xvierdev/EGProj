@@ -2,7 +2,7 @@
 
 ## Summary
 * [Descripton](/docs/description.md)
-* [Product Backlog](#backlog-do-produto)
+* [Product Backlog](#product-backlog)
 * [Blog](https://xvierdev.github.io/EGProj/)
 * [Tecnology]()
 * [Collaborators](#collaborators)

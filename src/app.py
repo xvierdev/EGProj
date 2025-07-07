@@ -1,10 +1,11 @@
-from modules import weekdays, number, colors, geomtest
+from modules import weekdays, number, colors, geomtest, pronouns
 
 funcs = {
-   "1": "Show weekdays",
-   "2": "Show numbers",
-   "3": "Show colors",
-   "4": "Show geometry",
+   "1": "Weekdays",
+   "2": "Numbers",
+   "3": "Colors",
+   "4": "Geometry",
+   "5": "Pronouns",
    "q": "Quit"
 }
 
@@ -19,9 +20,9 @@ def main_menu():
     try:
         while True:
             print("\nMenu:")
+
             for key, value in funcs.items():
                 print(f"{key}. {value}")
-                
             choice = input("Enter your choice: ")
             if choice == '1':
                 weekdays.weekdays()
@@ -31,6 +32,8 @@ def main_menu():
                 colors.colors()
             elif choice == '4':
                 geomtest.geomtest()
+            elif choice == '5':
+                pronouns.pronouns_test()
             elif choice == 'q':
                 print("Goodbye!")
                 break
