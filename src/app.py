@@ -1,5 +1,13 @@
 from modules import weekdays, number, colors, geomtest, pronouns
 
+funcs = {
+   "1": "Weekdays",
+   "2": "Numbers",
+   "3": "Colors",
+   "4": "Geometry",
+   "5": "Pronouns",
+   "q": "Quit"
+}
 
 def main_menu():
     """Display a simple menu to the user and handle their choices.F
@@ -12,12 +20,9 @@ def main_menu():
     try:
         while True:
             print("\nMenu:")
-            print("1. Weekdays")
-            print("2. Numbers")
-            print("3. Colors")
-            print("4. Geomtest")
-            print("5. Pronouns")
-            print("q. Quit")
+
+            for key, value in funcs.items():
+                print(f"{key}. {value}")
             choice = input("Enter your choice: ")
             if choice == '1':
                 weekdays.weekdays()
