@@ -1,6 +1,8 @@
 from num2words import num2words
 from random import randint
 
+from modules.utils import ask_play_again
+
 
 def numbers():
     while True:
@@ -23,6 +25,9 @@ def numbers():
         else:
             print("Você errou")
             input()
+
+        if not ask_play_again():
+            break
 
 
 if __name__ == '__main__':

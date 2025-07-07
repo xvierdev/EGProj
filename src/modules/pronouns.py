@@ -1,5 +1,7 @@
 from random import choice
 
+from modules.utils import ask_play_again
+
 
 def pronouns_test():
 
@@ -18,12 +20,15 @@ def pronouns_test():
                 'nothing': 'nada',
                 'any': 'qualquer',
                 'some': ('algum', 'alguma')}
-    pronoun = choice(list(pronouns.keys()))
-    answer = input(f'A tradução de \'{pronoun}\' é: ').strip().lower()
-    if answer in pronouns[pronoun]:
-        print('Correct')
-    else:
-        print('Incorrect')
+    while True:
+        pronoun = choice(list(pronouns.keys()))
+        answer = input(f'A tradução de \'{pronoun}\' é: ').strip().lower()
+        if answer in pronouns[pronoun]:
+            print('Correct')
+        else:
+            print('Incorrect')
+        if not ask_play_again():
+            break
 
 
 if __name__ == '__main__':
