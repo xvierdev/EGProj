@@ -19,16 +19,18 @@ Months = {
 
 def start (self):
   english_month = random.choice(list(self.months.keys()))
-print (f "the translation of : '{english_month}' to Portuguese is:")
+     print (f "the translation of : '{english_month}' to Portuguese is:")
 user_answer = input ("your answer").strip().lower()
 
 
 If check_answer(english_month, user_answer):
-    print("t: the answer is correct!")
-    print( "one more point!")
+
+     print("t: the answer is correct!")
+     print( "one more point!")
+
 else: 
-print ("the answer is incorrect.")
-print(" minus one point.")
+      print ("the answer is incorrect.")
+      print(" minus one point.")
 
 def check_answer (english_month, user_answer):
     correct_translation = months [english_month]
