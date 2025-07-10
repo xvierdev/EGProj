@@ -1,4 +1,4 @@
-from modules import weekdays, number, colors, geomtest, pronouns
+from modules import weekdays, number, colors, geomtest, pronouns, months
 
 funcs = {
    "1": "Weekdays",
@@ -6,6 +6,7 @@ funcs = {
    "3": "Colors",
    "4": "Geometry",
    "5": "Pronouns",
+   "6": "Months",
    "q": "Quit"
 }
 
@@ -24,21 +25,25 @@ def main_menu():
             for key, value in funcs.items():
                 print(f"{key}. {value}")
             choice = input("Enter your choice: ")
-            if choice == '1':
-                weekdays.weekdays()
-            elif choice == '2':
-                number.numbers()
-            elif choice == '3':
-                colors.colors()
-            elif choice == '4':
-                geomtest.geomtest()
-            elif choice == '5':
-                pronouns.pronouns_test()
-            elif choice == 'q':
-                print("Goodbye!")
-                break
-            else:
-                print("Invalid choice. Please try again.")
+            
+            match choice:
+                case '1':
+                    weekdays.weekdays()
+                case '2':
+                    number.numbers()
+                case '3':
+                    colors.colors()
+                case '4':
+                    geomtest.geomtest()
+                case '5':
+                    pronouns.pronouns_test()
+                case '6':
+                    months.start()
+                case 'q':
+                    print("Goodbye")
+                    break
+                case _:
+                    print("Invalid choice. Please try again.")
     except KeyboardInterrupt:
         print("\nExiting the program.")
 
