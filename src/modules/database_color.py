@@ -1,7 +1,13 @@
 import sqlite3
 conexao = sqlite3.connect('database_color.db')
 cursor = conexao.cursor()
-def creat_dataase_color():
+
+
+def get_cursor():
+    return cursor
+
+
+def creat_database_color():
     global conexao, cursor
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS database_color (
@@ -10,12 +16,13 @@ def creat_dataase_color():
         color_Portuguese TEXT)""")
     conexao.commit()
 
+
 def boot():
     colors_english = ["Black", "White", "Red", "Blue", "Yellow",
-                    "Green", "Orange", "Pink", "Purple", "Brown", "Gray"]
+                      "Green", "Orange", "Pink", "Purple", "Brown", "Gray"]
     colors_portuguese = ["Preto", "Branco", "Vermelho", "Azul",
-                        "Amarelo", "Verde", "Laranja", "Rosa",
-                        "Roxo", "Marrom", "Cinza"]
+                         "Amarelo", "Verde", "Laranja", "Rosa",
+                         "Roxo", "Marrom", "Cinza"]
     for colors_e, colors_p in zip(colors_english, colors_portuguese):
         cursor.execute(
             '''INSERT INTO database_color (color_english,color_Portuguese)
