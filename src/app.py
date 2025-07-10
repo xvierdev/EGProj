@@ -1,14 +1,15 @@
 from modules import weekdays, number, colors, geomtest, pronouns, months
 
 funcs = {
-   "1": "Weekdays",
-   "2": "Numbers",
-   "3": "Colors",
-   "4": "Geometry",
-   "5": "Pronouns",
-   "6": "Months",
-   "q": "Quit"
+    "1": "Weekdays",
+    "2": "Numbers",
+    "3": "Colors",
+    "4": "Geometry",
+    "5": "Pronouns",
+    "6": "Months",
+    "q": "Quit"
 }
+
 
 def main_menu():
     """Display a simple menu to the user and handle their choices.F
@@ -25,7 +26,7 @@ def main_menu():
             for key, value in funcs.items():
                 print(f"{key}. {value}")
             choice = input("Enter your choice: ")
-            
+
             match choice:
                 case '1':
                     weekdays.weekdays()
