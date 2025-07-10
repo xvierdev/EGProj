@@ -17,24 +17,21 @@ Months = {
      'December' : 'dezembro',
 }
 
-def start (self):
-  english_month = random.choice(list(self.months.keys()))
-     print (f "the translation of : '{english_month}' to Portuguese is:")
-user_answer = input ("your answer").strip().lower()
+def start():
+    english_month = random.choice(list(Months.keys()))
+    print(f"the translation of : '{english_month}' to Portuguese is:")
+    user_answer = input("your answer: ").strip().lower()
 
+    if check_answer(english_month, user_answer):
+        print("t: the answer is correct!")
+        print("one more point!")
+    else:
+        print("the answer is incorrect.")
+        print("minus one point.")
 
-If check_answer(english_month, user_answer):
-
-     print("t: the answer is correct!")
-     print( "one more point!")
-
-else: 
-      print ("the answer is incorrect.")
-      print(" minus one point.")
-
-def check_answer (english_month, user_answer):
-    correct_translation = months [english_month]
+def check_answer(english_month, user_answer):
+    correct_translation = Months[english_month]
     return user_answer == correct_translation
 
-if__name_=='__main__' :
-   Months ()
+if __name__ == '__main__':
+    start()
