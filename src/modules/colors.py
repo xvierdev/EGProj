@@ -1,7 +1,7 @@
 import random
 from modules.database_color import creat_database_color, boot, completion, get_cursor
 
-points = 9
+points = 0
 
 
 def colors():
