@@ -1,5 +1,5 @@
 from random import choice
-import utils
+import modules.utils
 
 # escolhe um mês do ano aleatório e traduz do inglês pro português
 
@@ -31,7 +31,7 @@ def start():
         else:
             print("the answer is incorrect.")
             print("minus one point.")
-        if not utils.ask_play_again():
+        if not modules.utils.ask_play_again():
             break
 
 
