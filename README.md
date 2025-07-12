@@ -32,7 +32,7 @@ Para rodar o sistema localmente, siga os passos abaixo:
 
 | Nome | GitHub | Linkedin |
 | ---- | ---- | ---- |
-| Ana | [github.com/ImFenyx](https://github.com/ImFenyx) | |
+| Ana | [github.com/anac832](https://github.com/anac832) | |
 | Davi |[github.com/Cubo3D](https://github.com/Cubo3D)||
 | Francisco |[github.com/fernandodo111](https://github.com/fernandodo111)||
 | Gabriel |[github.com/arcmia1566](https://github.com/arcmia1566)||
