@@ -1,40 +1,29 @@
-from random import choice
-
-from modules.utils import ask_play_again
-
-
-def pronouns_test():
-
-    pronouns = {'I': 'eu',
-                'you': ('você', 'vocês'),
-                'he': 'ele',
-                'she': 'ela',
-                'it': ('isso', 'isto', 'aquilo'),
-                'we': 'nós',
-                'they': ('eles', 'elas'),
-                'someone': 'alguém',
-                'something': 'algo',
-                'everyone': ('todos', 'todas'),
-                'everything': 'tudo',
-                'nobody': 'ninguém',
-                'nothing': 'nada',
-                'any': 'qualquer',
-                'some': ('algum', 'alguma')}
-    while True:
-        pronoun = choice(list(pronouns.keys()))
-        answer = input(f'A tradução de \'{pronoun}\' é: ').strip().lower()
-        if answer in pronouns[pronoun]:
-            print('Correct')
-        else:
-            print('Incorrect')
-        if not ask_play_again():
-            break
+from modules import eng_quiz
+pronouns = {
+    'I': 'eu',
+    'you': ('você', 'vocês'),
+    'he': 'ele',
+    'she': 'ela',
+    'it': ('isso', 'isto', 'aquilo'),
+    'we': 'nós',
+    'they': ('eles', 'elas'),
+    'someone': 'alguém',
+    'something': 'algo',
+    'everyone': ('todos', 'todas'),
+    'everything': 'tudo',
+    'nobody': 'ninguém',
+    'nothing': 'nada',
+    'any': 'qualquer',
+    'some': ('algum', 'alguma')
+}
 
 
-if __name__ == '__main__':
-    pronouns_test()
+class PronounsTest(eng_quiz.EnglishQuiz):
+    def __init__(self):
+        self.opt = pronouns
+        self.title = "Pronouns Test Module"
 
-    # TODO: implement this.
+    # TODO: override verify anwer method and implement this.
     """
     pronouns = {
         # Pronomes Pessoais do Caso Reto (Subjetivos)

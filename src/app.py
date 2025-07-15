@@ -1,4 +1,5 @@
 from modules import weekdays, number, colors, geomtest, pronouns, months
+from core import core
 
 funcs = {
     "1": "Weekdays",
@@ -29,17 +30,17 @@ def main_menu():
 
             match choice:
                 case '1':
-                    weekdays.weekdays()
+                    core(weekdays.WeekdaysTest())
                 case '2':
-                    number.numbers()
+                    core(number.NumberTest())
                 case '3':
                     colors.colors()
                 case '4':
-                    geomtest.geomtest()
+                    core(geomtest.GeometryTest())
                 case '5':
-                    pronouns.pronouns_test()
+                    core(pronouns.PronounsTest())
                 case '6':
-                    months.start()
+                    core(months.MonthsTest())
                 case 'q':
                     print("Goodbye")
                     break
