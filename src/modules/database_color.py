@@ -2,7 +2,6 @@ import sqlite3
 conexao = sqlite3.connect('database_color.db')
 cursor = conexao.cursor()
 
-
 def get_cursor():
     return cursor
 
@@ -12,24 +11,41 @@ def creat_database_color():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS database_color (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        color_english TEXT,
-        color_Portuguese TEXT)""")
+        simple_color_english TEXT,
+        simple_color_Portuguese TEXT,
+        advanced_color_english TEXT,
+        advanced_color_Portuguese TEX
+        )""")                  
     conexao.commit()
 
-
 def boot():
-    colors_english = ["Black", "White", "Red", "Blue", "Yellow",
-                      "Green", "Orange", "Pink", "Purple", "Brown", "Gray"]
-    colors_portuguese = ["Preto", "Branco", "Vermelho", "Azul",
-                         "Amarelo", "Verde", "Laranja", "Rosa",
-                         "Roxo", "Marrom", "Cinza"]
-    for colors_e, colors_p in zip(colors_english, colors_portuguese):
+    simple_colors_english = [
+        "Black", "White", "Red", "Blue", "Yellow",
+        "Green", "Orange", "Pink", "Purple", "Brown", "Gray"
+]
+    simple_colors_portuguese = [
+    "Preto", "Branco", "Vermelho", "Azul", "Amarelo",
+    "Verde", "Laranja", "Rosa", "Roxo", "Marrom", "Cinza"
+]
+    advanced_colors_english = [
+    "Cyan", "Magenta", "Turquoise", "Violet", "Beige",
+    "Gold", "Silver", "Burgundy", "Salmon", "Lavender", "Olive"
+]
+    advanced_colors_portuguese = [
+    "Ciano", "Magenta", "Turquesa", "Violeta", "Bege",
+    "Dourado", "Prateado", "Bordô", "Salmão", "Lavanda", "Oliva"
+]
+    for simple_colors_e, simple_colors_p , advanced_colors_e, advanced_colors_p in zip(simple_colors_english, simple_colors_portuguese,
+        advanced_colors_english, advanced_colors_portuguese):
         cursor.execute(
-            '''INSERT INTO database_color (color_english,color_Portuguese)
-            VALUES (?,?)''', (colors_e, colors_p))
+            '''INSERT INTO database_color (simple_color_english, simple_color_Portuguese, 
+            advanced_color_english,advanced_color_portuguese)
+            VALUES (?,?,?,?)''', (simple_colors_e, simple_colors_p, advanced_colors_e, advanced_colors_p))
         conexao.commit()
 
 
 def completion():
-    cursor.execute("DELETE FROM database_color")
+    cursor.execute("DELETE FROM DATABASE_COLOR WHERE id > 0")
     conexao.commit()
+
+   
