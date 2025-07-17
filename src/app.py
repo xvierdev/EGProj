@@ -1,5 +1,8 @@
 from modules import weekdays, number, colors, geomtest, pronouns, months
+from colorama import Fore, Back, Style, init
 from core import core
+
+init(autoreset=True)
 
 funcs = {
     "1": "Weekdays",
@@ -18,11 +21,14 @@ def main_menu():
     exit the program.
     It runs in a loop until the user chooses to exit.
     """
-    print("Welcome to the English App!")
-    print("Press Ctrl+C to exit at any time.")
+    print(Fore.YELLOW + "Welcome to the English App!")
+    print(f"Press {Fore.CYAN} Ctrl + C",
+          f"{Fore.RESET} to {Style.BRIGHT} exit",
+          f"{Style.RESET_ALL} at any time.")
     try:
         while True:
-            print("\nMenu:")
+            print()
+            print(f"{Fore.BLACK}{Back.WHITE}    Menu    ")
 
             for key, value in funcs.items():
                 print(f"{key}. {value}")
@@ -42,7 +48,7 @@ def main_menu():
                 case '6':
                     core(months.MonthsTest())
                 case 'q':
-                    print("Goodbye")
+                    print(f"{Fore.YELLOW}{Back.BLACK}Goodbye ...")
                     break
                 case _:
                     print("Invalid choice. Please try again.")
