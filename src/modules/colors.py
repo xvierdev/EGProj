@@ -1,11 +1,14 @@
 import random
+from colorama import Fore, Back, Style, init
 from modules.database_color import (
     creat_database_color,
     boot,
     completion,
-    get_cursor,
+    get_connection,
 )
 from modules.utils import ask_play_again
+
+init(autoreset=True)
 
 
 def level(points):
@@ -21,20 +24,22 @@ def level(points):
 
 def random_simple_color():
     global simples_color_english, simple_color_portuguese
-    get_cursor().execute(
+    cursor = get_connection().cursor()
+    cursor.execute(
         "SELECT simple_color_english ,"
         "simple_color_Portuguese FROM database_color")
-    color_r = get_cursor().fetchall()
+    color_r = cursor.fetchall()
     simple_random_colors = random.choice(color_r)
     simples_color_english, simple_color_portuguese = simple_random_colors
 
 
 def random_advanced_color():
     global advanced_color_english, advanced_color_portuguese
-    get_cursor().execute(
+    cursor = get_connection().cursor()
+    cursor.execute(
         "SELECT advanced_color_english ,"
         "advanced_color_Portuguese FROM database_color")
-    color_r = get_cursor().fetchall()
+    color_r = cursor.fetchall()
     advaanced_random_colors = random.choice(color_r)
     advanced_color_english, advanced_color_portuguese = advaanced_random_colors
 
@@ -65,7 +70,7 @@ def colors():
                     print("What is the translation of this color:",
                           simples_color_english)
                     response = str(input("> "))
-                    if response.lower().strip() == simple_color_portuguese.lower():
+                    if response.lower().strip() == simple_color_portuguese:
                         print("Correct! +1 point.")
                         points += 1
                         print("Current points:", points)
@@ -108,8 +113,14 @@ def colors():
                           simples_color_english, advanced_color_english)
                     response_simple = str(input("first color> "))
                     response_advanced = str(input("second color> "))
-                    if response_simple.strip().lower() == simple_color_portuguese:
-                        if response_advanced.strip().lower() == advanced_color_portuguese:
+                    if (
+                        response_simple.strip().lower() ==
+                        simple_color_portuguese
+                    ):
+                        if (
+                            response_advanced.strip().lower() ==
+                            advanced_color_portuguese
+                        ):
                             print("Correct! +1 point.")
                             points += 1
                             print("Current points:", points)
@@ -117,25 +128,33 @@ def colors():
                                 print("Congratulations! You've level up!")
                                 break
 
-                    if response_simple.lower() != simple_color_portuguese.lower() or response_advanced.lower() != advanced_color_portuguese.lower():
+                    if (
+                        response_simple.lower() != simple_color_portuguese or
+                        response_advanced.lower() != advanced_color_portuguese
+                    ):
                         points -= 1
                         print('Incorrect answer!')
                         print(
-                            f'Correct answer: {simple_color_portuguese}, {advanced_color_portuguese}')
+                            f'Correct answer: {simple_color_portuguese}, '
+                            f'{advanced_color_portuguese}'
+                        )
 
                     if not ask_play_again():
                         break
 
         elif menu == "2":
             while True:
-                print("How does it work?")
+                print(f"{Fore.YELLOW}{Back.BLACK}How does it work?")
                 print("Every time you get a question right, you earn a point.")
                 print("Every time you get a question wrong, you lose a point.")
                 print("Levels, every ten points you go up one level")
                 print("start with level 1 simple colors")
                 print("10 points level 2 advanced colors")
                 print("20 points Level 3 Simple and Advanced colors")
-                print("Current score:", points, "your level:", levels)
+                print(
+                    f"Current score: {Style.BRIGHT}{points}{Style.RESET_ALL} "
+                    f"your level: {Style.BRIGHT}{levels}{Style.RESET_ALL}"
+                )
                 if not ask_play_again():
                     break
 

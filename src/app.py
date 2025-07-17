@@ -28,7 +28,7 @@ def main_menu():
     try:
         while True:
             print()
-            print(f"{Fore.BLACK}{Back.WHITE}    Menu    ")
+            print(f"{Fore.BLACK}{Back.WHITE}{'Menu':^12}")
 
             for key, value in funcs.items():
                 print(f"{key}. {value}")
