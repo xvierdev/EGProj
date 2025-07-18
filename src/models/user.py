@@ -57,6 +57,7 @@ class User:
         sessões que não exigem autenticação completa.
 
         Retorna:
-            User: Uma nova instância da classe 'User' configurada como usuário convidado.
+            User: Uma nova instância da classe 'User' configurada
+            como usuário convidado.
         """
         return cls(0, "guest", "gues user", "guest_pass")

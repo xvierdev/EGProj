@@ -83,7 +83,7 @@ def create_user(user_login: str,
     return user
 
 
-def authenticate_user(user_login: str, password: str) -> Optional[User]:
+def authenticate_user(user_login: str, password: str) -> User:
     """
     Autentica um usuário verificando o login e a senha.
 
@@ -92,8 +92,7 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
         password (str): Senha em texto puro para autenticação.
 
     Returns:
-        Optional[User]: Objeto do usuário recém-criado, ou None
-        em caso de falha (se não levantar exceção).
+        User: Objeto do usuário recém-criado.
 
     Raises:
         ValueError: Se o usuário não for encontrado ou a senha for inválida.

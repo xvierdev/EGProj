@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-File name: score_dao.py
+Nome do arquivo: score_dao.py
 
-Description:
-    This module provides data access functions for managing scores in a SQLite
-    database.
+Descrição:
+    Este módulo fornece funções de acesso a dados para gerenciar pontuações
+    em um banco de dados SQLite.
 
-Functions:
-    - create_scores_table: Creates the scores table if it does not exist.
-    - insert_score: Inserts a new score into the scores table.
-    - get_scores: Retrieves scores for a specific user and module.
-    - update_score: Updates the score for a specific user and module.
-    - delete_score: Deletes the score for a specific user and module.
-    - initialize_database: Initializes the database and creates the scores
-    table.
+Funções:
+    - create_scores_table: Cria a tabela de pontuações, se ela não existir.
+    - insert_score: Insere uma nova pontuação na tabela de pontuações.
+    - get_scores: Recupera pontuações para um usuário e módulo específicos.
+    - update_score: Atualiza a pontuação para um usuário e módulo específicos.
+    - delete_score: Exclui a pontuação para um usuário e módulo específicos.
+    - initialize_database: Inicializa o banco de dados e cria a tabela de
+      pontuações.
 
-Author:
+Autor:
     Wesley Xavier <wesley.xvier@gmail.com>
 
-Created on:
+Criado em:
     2025-07-16
 
-Version:
+Versão:
     1.0.0
 
-License:
-    MIT License
+Licença:
+    Licença MIT
     Copyright (c) 2025 ProStudents Ltda.
 """
 import sqlite3
@@ -144,20 +144,3 @@ def delete_score(user_id, module_id):
 def initialize_database():
     """Initialize the database and create the scores table."""
     create_scores_table()
-
-
-# Example usage of the DAO functions
-if __name__ == "__main__":
-    initialize_database()
-    try:
-        conn = get_connection()
-        if conn:
-            print("Database initialized and connection established.")
-            insert_score(1, 101, 85)
-            insert_score(1, 102, 90)
-            scores = get_scores(1, 101)
-            print(f"Scores for user 1, module 101: {scores}")
-        else:
-            print("Failed to connect to the database.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
