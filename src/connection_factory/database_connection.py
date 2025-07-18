@@ -12,7 +12,7 @@ Funções:
     - get_db_connection: Retorna um objeto de conexão com o banco de dados.
     - create_user_table: Cria a tabela de usuários no banco de dados, se ela não existir.
 
-Autor:
+Autores:
     Wesley Xavier <wesley.xvier@gmail.com>
 
 Criado em:
