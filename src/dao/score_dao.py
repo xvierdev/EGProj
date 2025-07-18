@@ -4,11 +4,10 @@
 File name: score_dao.py
 
 Description:
-    This module provides data access functions for managing scores in a SQLite 
+    This module provides data access functions for managing scores in a SQLite
     database.
 
 Functions:
-    - get_db_connection: Establishes a connection to the SQLite database.
     - create_scores_table: Creates the scores table if it does not exist.
     - insert_score: Inserts a new score into the scores table.
     - get_scores: Retrieves scores for a specific user and module.
@@ -31,24 +30,16 @@ License:
     Copyright (c) 2025 ProStudents Ltda.
 """
 import sqlite3
+from connection_factory.database_connection import (
+    get_db_connection as get_connection
+)
 
-DBNAME = 'scores.db'
 TABLE_NAME = 'scores'
-
-
-def get_db_connection():
-    """Create a database connection to the SQLite database specified by DBNAME."""
-    try:
-        conn = sqlite3.connect(DBNAME)
-        return conn
-    except sqlite3.Error as e:
-        print(f"An error occurred while connecting to the database: {e}")
-        return None
 
 
 def create_scores_table():
     """Create the scores table if it does not exist."""
-    conn = get_db_connection()
+    conn = get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -72,7 +63,7 @@ def create_scores_table():
 
 def insert_score(user_id, module_id, score):
     """Insert a new score into the scores table."""
-    conn = get_db_connection()
+    conn = get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -91,7 +82,7 @@ def insert_score(user_id, module_id, score):
 
 def get_scores(user_id, module_id):
     """Retrieve scores for a specific user and module."""
-    conn = get_db_connection()
+    conn = get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -113,7 +104,7 @@ def get_scores(user_id, module_id):
 
 def update_score(user_id, module_id, score):
     """Update the score for a specific user and module."""
-    conn = get_db_connection()
+    conn = get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -133,7 +124,7 @@ def update_score(user_id, module_id, score):
 
 def delete_score(user_id, module_id):
     """Delete the score for a specific user and module."""
-    conn = get_db_connection()
+    conn = get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -159,7 +150,7 @@ def initialize_database():
 if __name__ == "__main__":
     initialize_database()
     try:
-        conn = get_db_connection()
+        conn = get_connection()
         if conn:
             print("Database initialized and connection established.")
             insert_score(1, 101, 85)
