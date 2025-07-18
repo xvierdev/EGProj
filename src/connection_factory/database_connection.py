@@ -4,13 +4,14 @@
 Módulo: database_connection.py
 
 Descrição:
-    Este módulo gerencia a conexão com o banco de dados SQLite principal da aplicação,
-    definido pela constante DBNAME. Ele fornece funções para estabelecer a conexão
-    e garantir a criação da estrutura inicial necessária para os dados dos usuários.
+    Este módulo gerencia a conexão com o banco de dados
+    SQLite principal da aplicação, definido pela constante DBNAME.
+    Ele fornece funções para estabelecer a conexão e garantir
+    a criação da estrutura inicial necessária para os dados dos usuários.
 
 Funções:
     - get_db_connection: Retorna um objeto de conexão com o banco de dados.
-    - create_user_table: Cria a tabela de usuários no banco de dados, se ela não existir.
+    - create_user_table: Cria a tabela de usuários se ela não existir.
 
 Autores:
     Wesley Xavier <wesley.xvier@gmail.com>
