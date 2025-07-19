@@ -28,7 +28,7 @@ CREATE TABLE score (
   count_access INT NOT NULL DEFAULT 1,
   record INT DEFAULT 0,
   FOREIGN KEY user_id REFERENCES user (id),
-  FOREIGN KEY module_id REFERENCES module (id)
+  FOREIGN KEY module_id REFERENCES module (module_id)
 );
 
 INSERT INTO
