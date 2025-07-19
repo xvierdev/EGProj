@@ -57,7 +57,30 @@ def get_module(module_name: str) -> Optional[Module]:
         raise
 
 
-def update_module(): ...
+def update_module(module_id: int, module: Module):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                UPDATE
+                    module
+                SET
+                    module_name = ?, description = ?, count_total_access = ?,
+                    record_user_id = ?, record_value = ?, record_datetime = ?
+                WHERE
+                    user_id = ?
+                """,
+                (
+                    module.description, module.count_total_access,
+                    module.record_user_id, module.record,
+                    module.record_datetime, module.module_id
+                )
+            )
+            conn.commit()
+    except sqlite3.Error as e:
+        print(f"Erro de conexão com banco de dados: {e}")
+        raise
 
 
 def delete_module(module_name: str):
