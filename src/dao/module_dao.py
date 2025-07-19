@@ -9,7 +9,8 @@ def insert_module(module: Module):
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """INSERT INTO module (module_name, description) VALUES (?, ?)""",
+                """ INSERT INTO module (module_name, description)
+                    VALUES (?, ?)""",
                 (module.module_name, module.description),
             )
             conn.commit()
@@ -24,7 +25,7 @@ def get_module(module_name: str) -> Optional[Module]:
             cursor = conn.cursor()
             cursor.execute(
                 """
-                SELECT 
+                SELECT
                     module_id,
                     module_name,
                     description,
@@ -59,4 +60,15 @@ def get_module(module_name: str) -> Optional[Module]:
 def update_module(): ...
 
 
-def delete_module(): ...
+def delete_module(module_name: str):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            DELETE FROM module WHERE module_name = ?
+            """, (module_name,)
+
+            )
+    except sqlite3.Error as e:
+        print(f'Erro ao remover modulo: {e}')
+        raise
