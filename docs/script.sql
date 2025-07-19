@@ -1,37 +1,37 @@
-CREATE DATABASE EnglishTerminal;
+-- CREATE DATABASE egproj;
+-- USE egproj;
 
-USE EnglishTerminal;
+-- tabela de armazenamento dos usuários
+CREATE TABLE
+  user (
+    id INTEGER PRIMARY KEY auto_increment, -- Unique identifier for each user
+    name VARCHAR(100) NOT NULL, -- User's name
+    login VARCHAR(100) NOT NULL UNIQUE, -- Unique login for the user
+    password VARCHAR(100) NOT NULL, -- User's password
+    createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the user was created
+  );
 
-CREATE TABLE user (
-  id INT PRIMARY KEY auto_increment, -- Unique identifier for each user
-  name VARCHAR(100) NOT NULL, -- User's name
-  login VARCHAR(100) NOT NULL UNIQUE, -- Unique login for the user
-  password VARCHAR(100) NOT NULL,  -- User's password
-  createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the user was created
-);
+-- tabela de armazenamento de referencia aos módulos
+CREATE TABLE
+  module (
+    module_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_name TEXT UNIQUE NOT NULL,
+    description TEXT,
+    count_total_access INTEGER NOT NULL DEFAULT 0,
+    record_user_id INTEGER,
+    record_value INTEGER DEFAULT 0,
+    record_datetime TIMESTAMP,
+    FOREIGN KEY (record_user_id) REFERENCES user (id)
+  );
 
-CREATE TABLE module (
-  module_id INT PRIMARY KEY auto_increment,
-  record_user_id INT,
-  description TEXT,
-  count_total_acess INT NOT NULL DEFAULT 0,
-  module_name TEXT NOT NULL,
-  record_value INT DEFAULT 0,
-  record_datetime TIMESTAMP,
-  FOREIGN KEY record_user_id REFERENCES user (id)
-);
-
-CREATE TABLE score (
-  user_id INT NOT NULL,
-  module_id INT NOT NULL,
-  total_score INT NOT NULL DEFAULT 0,
-  count_access INT NOT NULL DEFAULT 1,
-  record INT DEFAULT 0,
-  FOREIGN KEY user_id REFERENCES user (id),
-  FOREIGN KEY module_id REFERENCES module (module_id)
-);
-
-INSERT INTO
-  user (name, login, password)
-VALUES
-  ('joão', 'jao', 'jao123');
+-- tabela de armazenamento dos scores
+CREATE TABLE
+  score (
+    user_id INTEGER NOT NULL,
+    module_id INTEGER NOT NULL,
+    total_score INTEGER NOT NULL DEFAULT 0,
+    count_access INTEGER NOT NULL DEFAULT 1,
+    record INTEGER DEFAULT 0,
+    FOREIGN KEY user_id REFERENCES user (id),
+    FOREIGN KEY module_id REFERENCES module (module_id)
+  );
