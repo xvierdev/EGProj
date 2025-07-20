@@ -88,7 +88,7 @@ def interrogquest():
 
     phconstructor4 = input('\n\n4) "Josh eats an apple every day"\n\nReescreva: ').lower()
 
-    if phconstructor4 == 'does Josh eat an apple every day?':
+    if phconstructor4 == 'does josh eat an apple every day?':
         print('-> Your answer is... CORRECT!')
         points += 1
 
