@@ -167,6 +167,8 @@ def get_user_by_login(user_login: str):
                 FROM users
                 WHERE login = ? """, (user_login,))
             temp_info = cursor.fetchone()
+            if temp_info is None:
+                return None
             return User(
                 user_id=temp_info['id'],
                 user_name=temp_info['name'],
