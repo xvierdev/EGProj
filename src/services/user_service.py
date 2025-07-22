@@ -37,7 +37,11 @@ from models.user import User
 from dao.user_dao import get_user_by_login, verify_user_name, insert_user
 
 
-def create_user(user_login: str, user_name: str, password: str) -> Optional[User]:
+def create_user(
+    user_login: str,
+    user_name: str,
+    password: str
+) -> Optional[User]:
     """
     Cria um novo usuário, validando login, nome e senha
     e armazenando-a "hashed".
@@ -55,19 +59,27 @@ def create_user(user_login: str, user_name: str, password: str) -> Optional[User
         ValueError: Se o login já existe, nome inválido, ou senha
         não atende aos requisitos.
     """
+    error = False
     if verify_user_name(user_login):
         print(
             "Já existe um usuário com esse login. Por favor, escolha outro."
         )
+        error = True
 
     if len(password) < 6:
         print("A senha precisa ter no mínimo 6 caracteres.")
+        error = True
 
     if " " in password:
         print("A senha não pode conter espaços.")
+        error = True
 
     if len(user_name) < 3:
         print("O nome de usuário precisa ter no mínimo 3 caracteres.")
+        error = True
+
+    if error:
+        return None
 
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
     user = User(
@@ -76,8 +88,11 @@ def create_user(user_login: str, user_name: str, password: str) -> Optional[User
         user_name=user_name,
         password=hashed_password.decode("utf-8"),
     )
-    insert_user(user.user_name, user.user_login, user.password)
-    return user
+    try:
+        insert_user(user.user_name, user.user_login, user.password)
+        return user
+    except Exception as Erro:
+        print(f'Erro: {Erro}')
 
 
 def authenticate_user(user_login: str, password: str) -> Optional[User]:
@@ -99,7 +114,8 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
         print("Usuário não encontrado. Verifique seu login.")
         return None
 
-    elif bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
+    elif bcrypt.checkpw(password.encode("utf-8"),
+                        user.password.encode("utf-8")):
         print(f"{user.user_name} autenticado com sucesso!")
         return user
     else:

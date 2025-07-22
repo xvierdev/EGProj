@@ -27,7 +27,7 @@ def user_menu() -> Optional[User]:
         print("Choose your option:")
         print("1 - Login | 2 - Create new account | 3 - Guest user | 4 - exit")
         option = input("> ")
-        system('cls') # TODO: view this option for portability
+        system('cls')  # TODO: view this option for portability
         if option == "1":
             login = input("user: ")
             password = getpass("password: ")
@@ -55,7 +55,8 @@ def main_menu(user: User):
     if user is None:
         print('User is not valid.')
         exit()
-    print(Fore.YELLOW + f"{user.user_name.capitalize()}, welcome to the English App!")
+    user_name = user.user_name.capitalize()
+    print(f"{Fore.YELLOW}{user_name}, welcome to the English App!")
     print(
         f"Press {Fore.CYAN} Ctrl + C",
         f"{Fore.RESET} to {Style.BRIGHT} exit",
