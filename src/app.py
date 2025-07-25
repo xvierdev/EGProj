@@ -1,5 +1,6 @@
 from typing import Optional
 from modules import weekdays, number, colors, geomtest, pronouns, months
+from modules.phrases.interrogation import interrogquest
 from services.user_service import authenticate_user, create_user, guest_user
 from getpass import getpass
 from colorama import Fore, Back, Style, init
@@ -16,7 +17,8 @@ funcs = {
     "4": "Geometry",
     "5": "Pronouns",
     "6": "Months",
-    "q": "Quit",
+    "7": "Interrogative forms",
+    "Q": "Quit",
 }
 
 
@@ -65,11 +67,11 @@ def main_menu(user: User):
     try:
         while True:
             print()
-            print(f"{Fore.BLACK}{Back.WHITE}{'Menu':^12}")
+            print(f"{Fore.BLACK}{Back.WHITE}{'Menu':^22}")
 
             for key, value in funcs.items():
                 print(f"{key}. {value}")
-            choice = input("Enter your choice: ")
+            choice = input("Enter your choice: ").strip().upper()
 
             match choice:
                 case "1":
@@ -84,6 +86,8 @@ def main_menu(user: User):
                     core(pronouns.PronounsTest())
                 case "6":
                     core(months.MonthsTest())
+                case "7":
+                    interrogquest()
                 case "q":
                     print(f"{Fore.YELLOW}Goodbye ...")
                     break
