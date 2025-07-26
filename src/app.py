@@ -88,7 +88,7 @@ def main_menu(user: User):
                     core(months.MonthsTest())
                 case "7":
                     interrogquest()
-                case "q":
+                case "Q":
                     print(f"{Fore.YELLOW}Goodbye ...")
                     break
                 case _:

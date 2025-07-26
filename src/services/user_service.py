@@ -38,8 +38,8 @@ from dao.user_dao import get_user_by_login, verify_user_name, insert_user
 
 
 def create_user(
-    user_login: str,
     user_name: str,
+    user_login: str,
     password: str
 ) -> Optional[User]:
     """
@@ -47,8 +47,8 @@ def create_user(
     e armazenando-a "hashed".
 
     Args:
-        user_login (str): Login único do usuário.
         user_name (str): Nome de exibição do usuário.
+        user_login (str): Login único do usuário.
         password (str): Senha em texto puro.
 
     Returns:
@@ -77,6 +77,9 @@ def create_user(
     if len(user_name) < 3:
         print("O nome de usuário precisa ter no mínimo 3 caracteres.")
         error = True
+        
+    if len(user_login) < 3:
+        print('userlogin precisa ter no mínimo 3 caracteres.')
 
     if error:
         return None
