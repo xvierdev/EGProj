@@ -28,29 +28,32 @@ Licença:
 """
 import sqlite3
 
-DBNAME = 'egproj.db'
+_DBNAME = 'egproj.db'
 
 
-def get_db_connection() -> sqlite3.Connection:
+def get_db_connection(dbname=_DBNAME) -> sqlite3.Connection:
     """
     Cria e retorna um objeto de conexão com o banco de dados SQLite.
 
     A conexão é configurada para que as linhas retornadas possam ser
     acessadas por nome de coluna (via `sqlite3.Row`).
 
-    Retorna:
+    Args:
+        dbname (str): Nome do banco de dados.
+
+    Returns:
         sqlite3.Connection: Um objeto de conexão ativo com o banco de dados.
 
-    Levanta:
-        sqlite3.Error: Se ocorrer um erro durante a conexão com o
-        banco de dados.
+    Raises:
+        sqlite3.Error: Se ocorrer um erro durante a conexão com o \
+        banco de dados (ex: permissão negada, banco corrompido).
     """
     try:
-        conn = sqlite3.connect(DBNAME)
+        conn = sqlite3.connect(dbname)
         conn.row_factory = sqlite3.Row
         return conn
     except sqlite3.Error as e:
-        print(f"Erro ao conectar ao banco de dados '{DBNAME}': {e}")
+        print(f"Erro ao conectar ao banco de dados '{dbname}': {e}")
         raise
 
 
@@ -62,6 +65,11 @@ def create_user_table():
     login (texto único e não nulo), nome (texto não nulo),
     senha (hash, texto não nulo)
     e data de criação (DATETIME com timestamp padrão).
+
+    Raises:
+        sqlite3.Error: Se ocorrer um erro no banco de dados durante \
+        a criação da tabela.
+        Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
         with get_db_connection() as conn:
@@ -84,7 +92,11 @@ def create_user_table():
         raise
 
 
-try:
-    create_user_table()
-except Exception as e:
-    print(f"Não foi possível inicializar as tabelas. Erro: {e}")
+if __name__ == '__main__':
+    # Para teste da criação da table.
+    try:
+        create_user_table()
+        print("Tabela 'users' verificada/criada com sucesso.")
+    except Exception as e:
+        print(f"ERRO CRÍTICO: Não foi possível inicializar as tabelas."
+              f"A aplicação pode não funcionar corretamente. Erro: {e}")
