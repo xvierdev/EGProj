@@ -34,14 +34,17 @@ Licença:
 import bcrypt
 from typing import Optional
 from models.user import User
-from dao.user_dao import get_user_by_login, verify_user_name, insert_user
+from dao.user_dao import (
+    get_user_by_login,
+    verify_user_login_exists,
+    insert_user,
+    update_password as password_update,
+    delete_user
+)
 
 
-def create_user(
-    user_name: str,
-    user_login: str,
-    password: str
-) -> Optional[User]:
+def create_user(user_name: str, user_login: str,
+                password: str) -> Optional[User]:
     """
     Cria um novo usuário, validando login, nome e senha
     e armazenando-a "hashed".
@@ -52,15 +55,12 @@ def create_user(
         password (str): Senha em texto puro.
 
     Returns:
-        Optional[User]: Objeto do usuário recém-criado, ou None
-        em caso de falha (se não levantar exceção).
-
-    Raises:
-        ValueError: Se o login já existe, nome inválido, ou senha
-        não atende aos requisitos.
+        Optional[User]: Objeto do usuário recém-criado, ou None em caso de
+        falha (login já existe, nome inválido, senha não atende aos
+        requisitos), ou se ocorrer um erro interno.
     """
     error = False
-    if verify_user_name(user_login):
+    if verify_user_login_exists(user_login):
         print(
             "Já existe um usuário com esse login. Por favor, escolha outro."
         )
@@ -77,25 +77,31 @@ def create_user(
     if len(user_name) < 3:
         print("O nome de usuário precisa ter no mínimo 3 caracteres.")
         error = True
-        
+
     if len(user_login) < 3:
-        print('userlogin precisa ter no mínimo 3 caracteres.')
+        print('O login precisa ter no mínimo 3 caracteres.')
+        error = True
 
     if error:
         return None
 
-    hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-    user = User(
-        user_id=0,  # ID will be assigned by the database
-        user_login=user_login,
-        user_name=user_name,
-        password=hashed_password.decode("utf-8"),
-    )
     try:
-        insert_user(user.user_name, user.user_login, user.password)
-        return user
+        hashed_password = bcrypt.hashpw(
+            password.encode("utf-8"),
+            bcrypt.gensalt()
+        )
+        hashed_password_decoded = hashed_password.decode("utf-8")
+        user_id = insert_user(user_name, user_login, hashed_password_decoded)
+        if user_id is not None:
+            user = User(
+                user_id=user_id,
+                user_login=user_login,
+                user_name=user_name,
+                password=hashed_password_decoded,
+            )
+            return user
     except Exception as Erro:
-        print(f'Erro: {Erro}')
+        print(f'Ocorreu um erro na criação do user: {Erro}')
 
 
 def authenticate_user(user_login: str, password: str) -> Optional[User]:
@@ -108,17 +114,13 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
 
     Returns:
         User: Objeto do usuário recém-criado.
-
-    Raises:
-        ValueError: Se o usuário não for encontrado ou a senha for inválida.
     """
     user = get_user_by_login(user_login)
     if user is None:
         print("Usuário não encontrado. Verifique seu login.")
         return None
 
-    elif bcrypt.checkpw(password.encode("utf-8"),
-                        user.password.encode("utf-8")):
+    elif _check_password(user, password):
         print(f"{user.user_name} autenticado com sucesso!")
         return user
     else:
@@ -127,5 +129,49 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
 
 
 def guest_user() -> User:
-    user = User(0, "guest", "guest user", "")
+    user = User(None, "guest", "guest user", "")
     return user
+
+
+def update_password(user: User, old_password: str, new_password: str):
+    try:
+        if user.user_id is not None:
+            if _check_password(user, old_password):
+                hashed_password = bcrypt.hashpw(
+                    new_password.encode("utf-8"),
+                    bcrypt.gensalt()
+                )
+                hashed_password_decoded = hashed_password.decode('utf-8')
+                result = password_update(user.user_id, hashed_password_decoded)
+                if result:
+                    print('Password atualizado.')
+                    user.password = hashed_password_decoded
+                else:
+                    print('Erro ao atualizar password.')
+            else:
+                print('Erro: Senha incorreta.')
+        else:
+            print('Erro: Id do usuário é nula.')
+    except ValueError as e:
+        print(f'Erro {e}')
+
+
+def _check_password(user: User, password: str):
+    if user is None:
+        raise ValueError('User não pode ser None.')
+    if password is None:
+        raise ValueError('Password não pode ser None.')
+    password_encode = password.encode('utf-8')
+    user_password_encode = user.password.encode('utf-8')
+    return bcrypt.checkpw(password_encode, user_password_encode)
+
+
+def delete_user_account(user: User, password: str):
+    if user.user_id is not None:
+        if _check_password(user, password):
+            if delete_user(user.user_id):
+                print('Usuário removido com sucesso.')
+            else:
+                print('Não foi possível remover usuário.')
+        else:
+            print('Senha inválida.')

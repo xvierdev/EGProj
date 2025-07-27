@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 
 class User:
@@ -18,11 +19,12 @@ class User:
     """
 
     def __init__(
-        self, user_id: int,
+        self,
+        user_id: Optional[int],
         user_login: str,
         user_name: str,
         password: str,
-        created_at: datetime = datetime.now()
+        created_at: Optional[datetime] = None
     ):
         self.user_id = user_id
         self.user_login = user_login

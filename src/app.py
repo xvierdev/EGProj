@@ -6,11 +6,13 @@ from getpass import getpass
 from colorama import Fore, Back, Style, init
 from core import core
 from models.user import User
-from os import system
+from ui.cli_user_manager import user_account_menu
+from utils.terminal import clear
 
 init(autoreset=True)
 
 funcs = {
+    "0": 'Manage Account',
     "1": "Weekdays",
     "2": "Numbers",
     "3": "Colors",
@@ -24,12 +26,15 @@ funcs = {
 
 def user_menu() -> Optional[User]:
     user = None
+    clear()
     print("Welcome to the English Console App!")
     while True:
+        print()
         print("Choose your option:")
-        print("1 - Login | 2 - Create new account | 3 - Guest user | 4 - exit")
+        print()
+        print("1 - Login\n2 - Create new account\n3 - Guest user\n4 - Exit\n")
         option = input("> ")
-        system('cls')  # TODO: view this option for portability
+        clear()
         if option == "1":
             login = input("user: ")
             password = getpass("password: ")
@@ -42,9 +47,12 @@ def user_menu() -> Optional[User]:
         elif option == "3":
             user = guest_user()
         elif option == "4":
+            print('Bye...')
             exit()
+        else:
+            print('Invalid option.')
         if user is not None:
-            system('cls')
+            clear()
             return user
 
 
@@ -74,6 +82,8 @@ def main_menu(user: User):
             choice = input("Enter your choice: ").strip().upper()
 
             match choice:
+                case '0':
+                    user_account_menu(user)
                 case "1":
                     core(weekdays.WeekdaysTest())
                 case "2":
@@ -92,7 +102,7 @@ def main_menu(user: User):
                     print(f"{Fore.YELLOW}Goodbye ...")
                     break
                 case _:
-                    system('cls')
+                    clear()
                     print("Invalid choice. Please try again.")
     except KeyboardInterrupt:
         print("\nExiting the program.")
