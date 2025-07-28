@@ -31,6 +31,7 @@ Licença:
     Copyright (c) 2025 ProStudents Ltda.
 """
 
+import sqlite3
 import bcrypt
 from typing import Optional
 from models.user import User
@@ -93,15 +94,14 @@ def create_user(user_name: str, user_login: str,
         hashed_password_decoded = hashed_password.decode("utf-8")
         user_id = insert_user(user_name, user_login, hashed_password_decoded)
         if user_id is not None:
-            user = User(
-                user_id=user_id,
-                user_login=user_login,
-                user_name=user_name,
-                password=hashed_password_decoded,
-            )
+            user = get_user_by_login(user_login)
             return user
-    except Exception as Erro:
-        print(f'Ocorreu um erro na criação do user: {Erro}')
+    except sqlite3.IntegrityError as e:
+        print(f'Ja existe um usuário com esse login: {e}')
+    except sqlite3.Error as e:
+        print(f'Ocorreu um erro de SQL ao inserir o usuário: {e}')
+    except Exception as e:
+        print(f'Ocorreu um inesperado na criação do user: {e}')
 
 
 def authenticate_user(user_login: str, password: str) -> Optional[User]:
@@ -113,32 +113,53 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
         password (str): Senha em texto puro para autenticação.
 
     Returns:
-        User: Objeto do usuário recém-criado.
+        Optional[User]: Objeto do usuário recém-criado ou None
+        em caso alguma falha.
     """
-    user = get_user_by_login(user_login)
-    if user is None:
-        print("Usuário não encontrado. Verifique seu login.")
-        return None
+    try:
+        user = get_user_by_login(user_login)
+        if user is None:
+            print("Usuário não encontrado. Verifique seu login.")
+            return None
 
-    elif _check_password(user, password):
-        print(f"{user.user_name} autenticado com sucesso!")
-        return user
-    else:
-        print("Senha inválida. Por favor, tente novamente.")
-        return None
+        elif _check_password(user, password):
+            print(f"{user.user_name} autenticado com sucesso!")
+            return user
+        else:
+            print("Senha inválida. Por favor, tente novamente.")
+            return None
+    except sqlite3.Error as e:
+        print(f'Ocorreu um erro de SQL ao consultar usuário: {e}')
+    except ValueError as e:
+        print(f'Erro ao verificar a senha do usuário: {e}')
+    except Exception as e:
+        print(f'Ocorreu um erro inesperado ao consultar usuário: {e}')
 
 
 def guest_user() -> User:
+    """Retorna um usuário convidado com informações genéricas.
+
+    Returns:
+        User: um objeto do tipo User qeu representa o usuário convidado.
+    """
     user = User(None, "guest", "guest user", "")
     return user
 
 
 def update_password(user: User, old_password: str, new_password: str):
+    """Atualiza a senha do usuário.
+
+    Args:
+        user (User): Objeto que representa o usuário.
+        old_password (str): Senha atual.
+        new_password (str): Nova senha.
+    """
     try:
         if user.user_id is not None:
             if _check_password(user, old_password):
+                new_password_encoded = new_password.encode("utf-8")
                 hashed_password = bcrypt.hashpw(
-                    new_password.encode("utf-8"),
+                    new_password_encoded,
                     bcrypt.gensalt()
                 )
                 hashed_password_decoded = hashed_password.decode('utf-8')
@@ -151,12 +172,28 @@ def update_password(user: User, old_password: str, new_password: str):
             else:
                 print('Erro: Senha incorreta.')
         else:
-            print('Erro: Id do usuário é nula.')
+            print(f'Erro: id nula para o usuário "{user.user_name}"')
+    except sqlite3.Error as e:
+        print(f'Ocorreu um erro de SQL ao atualizar a senha: {e}')
     except ValueError as e:
         print(f'Erro {e}')
+    except Exception as e:
+        print(f'Ocorreu um erro inesperado ao atualizar a senha: {e}')
 
 
-def _check_password(user: User, password: str):
+def _check_password(user: User, password: str) -> bool:
+    """Médoto interno para checar se a senha do usuário é válida.
+
+    Args:
+        user (User): O objeto que representa o usuário.
+        password (str): A senha a ser verificada.
+
+    Raises:
+        ValueError: Caso o valor de user ou password seja None.
+
+    Returns:
+        bool: True caso a senha esteja correta, False caso contrário.
+    """
     if user is None:
         raise ValueError('User não pode ser None.')
     if password is None:
@@ -167,11 +204,20 @@ def _check_password(user: User, password: str):
 
 
 def delete_user_account(user: User, password: str):
-    if user.user_id is not None:
-        if _check_password(user, password):
-            if delete_user(user.user_id):
-                print('Usuário removido com sucesso.')
+    """Remove a conta do usuário do banco de dados.
+
+    Args:
+        user (User): O objeto que representa o usuário.
+        password (str): A senha atual do usuário.
+    """
+    try:
+        if user.user_id is not None:
+            if _check_password(user, password):
+                if delete_user(user.user_id):
+                    print('Usuário removido com sucesso.')
             else:
-                print('Não foi possível remover usuário.')
-        else:
-            print('Senha inválida.')
+                print('Senha inválida.')
+    except sqlite3.Error as e:
+        print(f'Ocorreu um erro de SQL ao tentar remover usuário: {e}')
+    except ValueError as e:
+        print(f'Ocorreu um erro inesperado ao tentar remover o usuário {e}')

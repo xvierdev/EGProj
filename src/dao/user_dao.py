@@ -66,14 +66,11 @@ def insert_user(user_name: str, user_login: str,
             conn.commit()
             return cursor.lastrowid
     except sqlite3.IntegrityError as e:
-        print(f'Erro de integridade (login duplicado): {e}')
-        raise
+        raise e
     except sqlite3.Error as e:
-        print(f'Ocorreu um erro SQL ao inserir o usuário: {e}')
-        raise
+        raise e
     except Exception as e:
-        print(f'Ocorreu um erro inesperado ao inserir o usuário: {e}')
-        raise
+        raise e
 
 
 def get_user_by_id(user_id: int) -> Optional[User]:
@@ -116,11 +113,11 @@ def get_user_by_id(user_id: int) -> Optional[User]:
             return user
 
     except sqlite3.Error as e:
-        print(f'Ocorreu um erro SQL ao recuperar o usuário por ID: {e}')
-        raise
+        # print(f'Ocorreu um erro SQL ao recuperar o usuário por ID: {e}')
+        raise e
     except Exception as e:
-        print(f'Ocorreu um erro inesperado ao recuperar o usuário por ID: {e}')
-        raise
+        # print(f'Ocorreu um erro inesperado ao recuperar o usuário por ID: {e}')
+        raise e
 
 
 def verify_user_login_exists(user_login: str) -> bool:
@@ -147,15 +144,15 @@ def verify_user_login_exists(user_login: str) -> bool:
             user_exists = cursor.fetchone() is not None
             return user_exists
     except sqlite3.Error as e:
-        print(
-            f'Ocorreu um erro SQL ao verificar a '
-            f'existência do login do usuário: {e}')
-        raise
+        # print(
+        #     f'Ocorreu um erro SQL ao verificar a '
+        #     f'existência do login do usuário: {e}')
+        raise e
     except Exception as e:
-        print(
-            f'Ocorreu um erro inesperado ao verificar a '
-            f'existência do login do usuário: {e}')
-        raise
+        # print(
+        #     f'Ocorreu um erro inesperado ao verificar a '
+        #     f'existência do login do usuário: {e}')
+        raise e
 
 
 def get_user_by_login(user_login: str) -> Optional[User]:
@@ -196,14 +193,14 @@ def get_user_by_login(user_login: str) -> Optional[User]:
                 created_at=created_at_dt
             )
     except sqlite3.Error as e:
-        print(f'Ocorreu um erro SQL ao recuperar o usuário por login: {e}')
-        raise
+        # print(f'Ocorreu um erro SQL ao recuperar o usuário por login: {e}')
+        raise e
     except Exception as e:
-        print(
-            f'Ocorreu um erro inesperado ao recuperar '
-            f'o usuário por login: {e}'
-        )
-        raise
+        # print(
+        #     f'Ocorreu um erro inesperado ao recuperar '
+        #     f'o usuário por login: {e}'
+        # )
+        raise e
 
 
 def update_password(user_id: int, new_password_hash: str) -> bool:
@@ -233,14 +230,9 @@ def update_password(user_id: int, new_password_hash: str) -> bool:
             conn.commit()
             return cursor.rowcount > 0
     except sqlite3.Error as e:
-        print(f'Ocorreu um erro SQL ao tentar alterar a senha do usuário: {e}')
-        raise
+        raise e
     except Exception as e:
-        print(
-            f'Ocorreu um erro inesperado ao tentar alterar '
-            f'a senha do usuário: {e}'
-        )
-        raise
+        raise e
 
 
 def delete_user(user_id: int) -> bool:
@@ -254,9 +246,7 @@ def delete_user(user_id: int) -> bool:
 
     Raises:
         sqlite3.Error: Se ocorrer um erro no banco de dados.
-        ValueError: Se o user_id for None.
         Exception: Se ocorrer um erro inesperado.
-
     """
     try:
         with get_connection() as conn:
@@ -267,8 +257,6 @@ def delete_user(user_id: int) -> bool:
             )
             return cursor.rowcount > 0
     except sqlite3.Error as e:
-        print(f'Ocorreu um erro de SQL ao tentar remover usuário: {e}')
-        raise
+        raise e
     except Exception as e:
-        print(f'Ocorreu um erro inesperado ao tentar remover o usuário {e}')
-        raise
+        raise e

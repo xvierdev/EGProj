@@ -8,11 +8,19 @@ def user_account_menu(user: User):
     if user is None:
         raise ValueError('User cannot be None.')
     while True:
+        clear()
+        print('Summary')
+        print()
+        print(f'User name: {user.user_name}')
+        print(f'Login: {user.user_login}')
+        print(f'Created at: {user.created_at}')
+        print()
         print('Choose one option:')
         print()
         print('1 - choose password')
         print('2 - delete account')
         print('r - return to back menu')
+        print('q - exit')
         print()
         option = input('> ')
 
