@@ -1,4 +1,4 @@
-from utils.terminal import clear
+from utils.terminal import clear, quit
 from getpass import getpass
 from models.user import User
 from services.user_service import update_password, delete_user_account
@@ -7,40 +7,42 @@ from services.user_service import update_password, delete_user_account
 def user_account_menu(user: User):
     if user is None:
         raise ValueError('User cannot be None.')
+    clear()
     while True:
-        clear()
-        print('Summary')
-        print()
+        print('Summary\n')
         print(f'User name: {user.user_name}')
         print(f'Login: {user.user_login}')
         print(f'Created at: {user.created_at}')
-        print()
-        print('Choose one option:')
-        print()
-        print('1 - choose password')
-        print('2 - delete account')
-        print('r - return to back menu')
-        print('q - exit')
-        print()
-        option = input('> ')
-
-        if option in ('q', 'Q'):
-            exit()
+        print('\nChoose one option:\n')
+        print('1 > Choose your password')
+        print('2 > Delete your account')
+        print('R > Return to back menu')
+        print('Q > Quit')
+        option = input('\n> ').strip().upper()[0]
 
         match option:
             case '1':
-                old_password = getpass('type old password: ')
-                new_password = getpass('type new password: ')
-                t_new_password = getpass('re-type new password: ')
+                try:
+                    old_password = getpass('Type old password: ')
+                    new_password = getpass('Type new password: ')
+                    t_new_password = getpass('Re-type new password: ')
 
-                if new_password != t_new_password:
-                    raise ValueError('Passwords must match!')
+                    if new_password != t_new_password:
+                        raise ValueError('Passwords must match!')
 
-                update_password(user, old_password, new_password)
+                    result = update_password(user, old_password, new_password)
+                    if result is True:
+                        print('Senha alterada com sucesso!')
+                    else:
+                        print('Erro ao alterar a senha.')
+                except ValueError as e:
+                    print(f'Erro: {e}')
             case '2':
-                password = getpass('current password: ')
+                password = getpass('Current password: ')
                 delete_user_account(user, password)
-                exit()
-            case 'r':
+                quit()
+            case 'R':
                 clear()
                 break
+            case 'Q':
+                quit()
