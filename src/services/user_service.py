@@ -36,10 +36,8 @@ import bcrypt
 from typing import Optional
 from models.user import User
 from dao.user_dao import (
-    get_user_by_login,
-    verify_user_login_exists,
-    insert_user,
-    update_password as password_update,
+    get_user_by_login, verify_user_login_exists,
+    insert_user, update_password as password_update,
     delete_user
 )
 
@@ -153,11 +151,15 @@ def update_password(user: User, old_password: str, new_password: str):
         user (User): Objeto que representa o usuário.
         old_password (str): Senha atual.
         new_password (str): Nova senha.
+
+    Returns:
+        bool: True caso a senha seja alterada e False caso contrário.
+
     """
     try:
         if user.user_id is not None:
             if _check_password(user, old_password):
-                new_password_encoded = new_password.encode("utf-8")
+                new_password_encoded = new_password.encode('utf-8')
                 hashed_password = bcrypt.hashpw(
                     new_password_encoded,
                     bcrypt.gensalt()
@@ -165,12 +167,12 @@ def update_password(user: User, old_password: str, new_password: str):
                 hashed_password_decoded = hashed_password.decode('utf-8')
                 result = password_update(user.user_id, hashed_password_decoded)
                 if result:
-                    print('Password atualizado.')
                     user.password = hashed_password_decoded
+                    return True
                 else:
-                    print('Erro ao atualizar password.')
+                    return False
             else:
-                print('Erro: Senha incorreta.')
+                raise ValueError('Senha incorreta.')
         else:
             print(f'Erro: id nula para o usuário "{user.user_name}"')
     except sqlite3.Error as e:

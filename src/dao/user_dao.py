@@ -113,10 +113,8 @@ def get_user_by_id(user_id: int) -> Optional[User]:
             return user
 
     except sqlite3.Error as e:
-        # print(f'Ocorreu um erro SQL ao recuperar o usuário por ID: {e}')
         raise e
     except Exception as e:
-        # print(f'Ocorreu um erro inesperado ao recuperar o usuário por ID: {e}')
         raise e
 
 
@@ -144,14 +142,8 @@ def verify_user_login_exists(user_login: str) -> bool:
             user_exists = cursor.fetchone() is not None
             return user_exists
     except sqlite3.Error as e:
-        # print(
-        #     f'Ocorreu um erro SQL ao verificar a '
-        #     f'existência do login do usuário: {e}')
         raise e
     except Exception as e:
-        # print(
-        #     f'Ocorreu um erro inesperado ao verificar a '
-        #     f'existência do login do usuário: {e}')
         raise e
 
 
