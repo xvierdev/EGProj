@@ -1,7 +1,22 @@
-*venv/
+# Ambientes Virtuais
+# Ignora a pasta do ambiente virtual do Python
+venv/
+.venv/
+
+# Configurações do VS Code
+# Ignora arquivos de configuração específicos do VS Code
 .vscode/
+
+# Arquivos temporários e de cache do Python
+# Ignora o cache de bytecode do Python
 __pycache__/
+# Ignora arquivos de banco de dados SQLite
 *.db
+# Ignora arquivo temporário gerado por algumas extensões do VS Code
 tempCodeRunnerFile.py
-test.py
+
+# Arquivos de teste e scripts diversos
+# Ignora arquivos de teste, se 'test.py' não for parte essencial do seu repositório
+test*.py
+# Ignora scripts de limpeza do Windows
 clean.bat
