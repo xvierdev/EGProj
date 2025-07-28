@@ -24,7 +24,14 @@ funcs = {
 }
 
 
-def user_menu() -> Optional[User]:
+def user_menu() -> User:
+    """Menu inicial do usuário para criação de conta, login ou entrar
+    como usuário convidado, isto ficará em loop até que seja obtido
+    um usuário válido (novo, autenticado ou convidado.)
+
+    Returns:
+        User: retorna o objeto do tipo User que representa o usuário atual.
+    """
     user = None
     clear()
     print("Welcome to the English Console App!")
@@ -57,10 +64,9 @@ def user_menu() -> Optional[User]:
 
 
 def main_menu(user: User):
-    """Display a simple menu to the user and handle their choices.F
-    This function provides a menu with options to show weekdays or
-    exit the program.
-    It runs in a loop until the user chooses to exit.
+    """Mostrea o menu principal do jogador após autenticação ou entrada
+    como usuário convidado, contém as opções para treinar o inglês ou
+    gerenciar a própria conta de usuário.
     """
     if user is None:
         print('User is not valid.')
