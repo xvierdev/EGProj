@@ -3,9 +3,10 @@
 venv/
 .venv/
 
-# Configurações do VS Code
+# Configurações do VS Code e do Eclipse Theia IDE
 # Ignora arquivos de configuração específicos do VS Code
 .vscode/
+.theia/
 
 # Arquivos temporários e de cache do Python
 # Ignora o cache de bytecode do Python

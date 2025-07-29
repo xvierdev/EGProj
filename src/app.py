@@ -1,4 +1,7 @@
 from ui import cli_initial_menu, cli_main_menu
+from connection_factory import database_connection
+
+database_connection.create_user_table()
 
 funcs = {
     '0': 'Manage Account',
