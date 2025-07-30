@@ -19,5 +19,3 @@ tempCodeRunnerFile.py
 # Arquivos de teste e scripts diversos
 # Ignora arquivos de teste, se 'test.py' não for parte essencial do seu repositório
 test*.py
-# Ignora scripts de limpeza do Windows
-clean.bat
