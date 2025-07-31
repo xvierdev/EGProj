@@ -10,7 +10,8 @@ class NumberTest(eng_quiz.EnglishQuiz):
 
     def get_opt(self):
         randomNumber = randint(0, 1000)
+        self.opt = randomNumber
         return num2words(randomNumber)
 
     def verify_answer(self, selected, answer):
-        return answer.strip().lower() == num2words(selected, lang='pt_BR')
+        return answer.strip().lower() == num2words(self.opt, lang='pt_BR')
