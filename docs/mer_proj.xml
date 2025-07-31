@@ -910,9 +910,9 @@
 <AtributosOcultos Valor=""/>
 </Entidade>
 <Atributo ID="176">
-<Bounds Height="14" Left="568" Top="396" Width="55"/>
+<Bounds Height="14" Left="568" Top="396" Width="54"/>
 <DisablePainted Valor="false"/>
-<Texto>Name</Texto>
+<Texto>name</Texto>
 <Observacao/>
 <Dicionario/>
 <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
@@ -939,8 +939,10 @@
 <Largura Valor="1"/>
 <Ligacoes PontaA="176" PontaB="175"/>
 <Pontos>
-<Ponto Left="565" Top="400"/>
+<Ponto Left="564" Top="400"/>
 <Ponto Left="555" Top="400"/>
+<Ponto Left="555" Top="417"/>
+<Ponto Left="555" Top="417"/>
 <Ponto Left="555" Top="426"/>
 </Pontos>
 </Ligacao>
