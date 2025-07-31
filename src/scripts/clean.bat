@@ -27,6 +27,5 @@ for /d /r . %%d in (__pycache__) do (
     )
 )
 
-echo Tarefa concluida!
 pause
 endlocal
