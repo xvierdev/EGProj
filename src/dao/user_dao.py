@@ -7,11 +7,11 @@ Descrição:
     persistência e recuperação de dados da tabela 'users'.
 
 Funções:
-    - insert_user: Insere um novo usuário no banco de dados.
-    - get_user_by_id: Recupera um usuário pelo seu ID.
-    - verify_user_login_exists: Verifica se um login de usuário já existe.
-    - get_user_by_login: Recupera um usuário pelo seu login.
-    - update_password: Atualiza a senha de um usuário existente.
+    - dao_create_user: Insere um novo usuário no banco de dados.
+    - dao_read_user: Recupera um usuário pelo seu ID.
+    - dao_read_user_by_login: Recupear um usuário pelo login.
+    - dao_update_user: Atualiza o nome e a senha de um usuário existente.
+    - dao_delete_user: Remove um usuário identificado por user_id.
 
 Autor:
     Wesley Xavier <wesley.xvier@gmail.com>
@@ -20,28 +20,23 @@ Criado em:
     2025-07-17
 
 Versão:
-    1.0.1
+    1.0.2
 
 Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
-from ast import Tuple
 import logging
 import sqlite3
-from datetime import datetime
 from typing import Optional
-from models.user import User
-from connection_factory.database_connection import (
-    get_db_connection as _get_connection
-)
+
 
 _USER_TABLE = 'users'
 
 logging.getLogger(__name__)
 
 
-def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
+def dao_create_user(conn: sqlite3.Connection, user_name: str, user_login: str,
                     user_password: str) -> Optional[int]:
     """
     Insere um novo usuário na table users.
@@ -72,7 +67,7 @@ def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
     except sqlite3.IntegrityError:
         conn.rollback()
         logging.exception(
-            f'Erro de integridade ao inserir usuário. Login: {user_login}')
+            f'Erro de integridade ao inserir usuário "{user_login=}"')
         raise
     except sqlite3.Error:
         conn.rollback()
@@ -84,8 +79,8 @@ def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
         raise
 
 
-def dao_get_user_by_id(conn: sqlite3.Connection,
-                       user_id: int) -> Optional[Tuple]:
+def dao_read_user(conn: sqlite3.Connection,
+                  user_id: int) -> Optional[tuple]:
     """
     Recupera um usuário pelo seu ID do banco de dados.
 
@@ -109,113 +104,37 @@ def dao_get_user_by_id(conn: sqlite3.Connection,
             (user_id,)
         )
         return cursor.fetchone()
-
-        # TODO: move this to services level.
-        # created_at_str = temp_info['created_at']
-        # created_at_dt = datetime.strptime(
-        #     created_at_str, '%Y-%m-%d %H:%M:%S')
-
-        # user = User(
-        #     user_id=temp_info['id'],
-        #     user_login=temp_info['login'],
-        #     user_name=temp_info['name'],
-        #     password=temp_info['password'],
-        #     created_at=created_at_dt
-        # )
-        # return user
-
     except sqlite3.Error:
-        logging.exception(f'Ocorreu um erro ao consultar usuário {user_id}')
+        logging.exception(f'Ocorreu um erro ao consultar usuário "{user_id}"')
         raise
     except Exception:
-        logging.exception(f'Erro inesperado ao consultar usuário {user_id}')
+        logging.exception(f'Erro inesperado ao consultar usuário "{user_id}"')
         raise
 
 
-def dao_verify_user_login_exists(conn: sqlite3.Connection,
-                                 user_login: str) -> bool:
+def dao_read_user_by_login(conn: sqlite3.Connection,
+                           user_login: str) -> Optional[tuple]:
     """
-    Verifica se um usuário com o login especificado já existe.
-
-    Args:
-        conn (sqlite3.Connection): O objeto de conexão com o DB.
-        user_login (str): O login do usuário a ser verificado.
-
-    Returns:
-        bool: True se o usuário existir, False caso contrário.
-
-    Raises:
-        sqlite3.Error: Se ocorrer um erro no banco de dados durante a operação.
-        Exception: Para erros inesperados não relacionados ao SQLite.
+    Recupera o usuário pelo login.
     """
     try:
-        with _get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f"""SELECT id FROM {_USER_TABLE}
-                WHERE login = ? """,
-                (user_login,)
-            )
-            user_exists = cursor.fetchone() is not None
-            return user_exists
-    except sqlite3.Error as e:
-        logging.exception(f'Ocorreu um erro na consultar {user_login=}')
-        raise e
-    except Exception as e:
-        logging.exception(f'Erro inexperado na consulta {user_login=}')
-        raise e
-
-
-def get_user_by_login(user_login: str) -> Optional[User]:
-    """Recupera um usuário pelo seu login do banco de dados.
-
-    Args:
-        user_login (str): O login do usuário a ser recuperado.
-
-    Returns:
-        Optional[User]: Um objeto User se encontrado, caso contrário None.
-
-    Raises:
-        sqlite3.Error: Se ocorrer um erro no banco de dados durante a operação.
-        Exception: Para erros inesperados não relacionados ao SQLite.
-    """
-    try:
-        with _get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f""" SELECT id, name, login, password, created_at
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""SELECT id, name, login, password, created_at
                 FROM {_USER_TABLE}
-                WHERE login = ? """,
-                (user_login,)
-            )
-            temp_info = cursor.fetchone()
-            if temp_info is None:
-                return None
-
-            created_at_str = temp_info['created_at']
-            created_at_dt = datetime.strptime(
-                created_at_str, '%Y-%m-%d %H:%M:%S')
-
-            return User(
-                user_id=temp_info['id'],
-                user_name=temp_info['name'],
-                user_login=temp_info['login'],
-                password=temp_info['password'],
-                created_at=created_at_dt
-            )
-    except sqlite3.Error as e:
-        # print(f'Ocorreu um erro SQL ao recuperar o usuário por login: {e}')
-        raise e
-    except Exception as e:
-        # print(
-        #     f'Ocorreu um erro inesperado ao recuperar '
-        #     f'o usuário por login: {e}'
-        # )
-        raise e
+                WHERE login = ?""",
+            (user_login,)
+        )
+        return cursor.fetchone()
+    except sqlite3.Error:
+        logging.exception(f'Erro ao buscar usuário por login: {user_login}')
+        raise
 
 
-def update_password(user_id: int, new_password_hash: str) -> bool:
-    """Atualiza a senha (hash) de um usuário existente no banco de dados.
+def dao_update_user(conn: sqlite3.Connection, user_id: int, user_name: str,
+                    password: str) -> bool:
+    """
+    Atualiza a senha (hash) de um usuário existente no banco de dados.
 
     Args:
         user_id (int): O ID único do usuário cuja senha será atualizada.
@@ -230,25 +149,29 @@ def update_password(user_id: int, new_password_hash: str) -> bool:
         Exception: Para outros erros inesperados não relacionados ao SQLite.
     """
     try:
-        with _get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f"""UPDATE {_USER_TABLE}
-                SET password = ?
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""UPDATE {_USER_TABLE}
+                SET name = ?, password = ?
                 WHERE id = ? """,
-                (new_password_hash, user_id)
-            )
-            conn.commit()
-            return cursor.rowcount > 0
+            (user_name, password, user_id)
+        )
+        conn.commit()
+        return cursor.rowcount > 0
     except sqlite3.Error as e:
+        logging.exception(f'Ocorreu um erro na atualizar "{user_id=}"')
         raise e
     except Exception as e:
+        logging.exception(f'Erro inexperado ao atualizar "{user_id=}"')
         raise e
 
 
-def delete_user(user_id: int) -> bool:
-    """Remove um usuário do banco de dados.
+def dao_delete_user(conn: sqlite3.Connection, user_id: int) -> bool:
+    """
+    Remove um usuário do banco de dados.
+
     Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
         user_id (int): O id do usuário a ser removido.
 
     Returns:
@@ -260,14 +183,17 @@ def delete_user(user_id: int) -> bool:
         Exception: Se ocorrer um erro inesperado.
     """
     try:
-        with _get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
-                (user_id,)
-            )
-            return cursor.rowcount > 0
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
+            (user_id,)
+        )
+        return cursor.rowcount > 0
     except sqlite3.Error as e:
+        conn.rollback()
+        logging.exception(f'Ocorreu um erro ao remover "{user_id=}"')
         raise e
     except Exception as e:
+        conn.rollback()
+        logging.exception(f'Erro inexperado ao remover "{user_id=}"')
         raise e

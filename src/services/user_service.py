@@ -36,9 +36,9 @@ import bcrypt
 from typing import Optional
 from models.user import User
 from dao.user_dao import (
-    get_user_by_login, dao_verify_user_login_exists,
-    dao_insert_user, update_password as password_update,
-    delete_user
+    dao_read_user_by_login, dao_user_exists,
+    dao_create_user, dao_update_user as password_update,
+    dao_delete_user
 )
 
 
@@ -59,7 +59,7 @@ def create_user(user_name: str, user_login: str,
         requisitos), ou se ocorrer um erro interno.
     """
     error = False
-    if dao_verify_user_login_exists(user_login):
+    if dao_user_exists(user_login):
         print(
             "Já existe um usuário com esse login. Por favor, escolha outro."
         )
@@ -90,9 +90,9 @@ def create_user(user_name: str, user_login: str,
             bcrypt.gensalt()
         )
         hashed_password_decoded = hashed_password.decode("utf-8")
-        user_id = dao_insert_user(user_name, user_login, hashed_password_decoded)
+        user_id = dao_create_user(user_name, user_login, hashed_password_decoded)
         if user_id is not None:
-            user = get_user_by_login(user_login)
+            user = dao_read_user_by_login(user_login)
             return user
     except sqlite3.IntegrityError as e:
         print(f'Ja existe um usuário com esse login: {e}')
@@ -115,7 +115,7 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
         em caso alguma falha.
     """
     try:
-        user = get_user_by_login(user_login)
+        user = dao_read_user_by_login(user_login)
         if user is None:
             print("Usuário não encontrado. Verifique seu login.")
             return None
@@ -215,7 +215,7 @@ def delete_user_account(user: User, password: str):
     try:
         if user.user_id is not None:
             if _check_password(user, password):
-                if delete_user(user.user_id):
+                if dao_delete_user(user.user_id):
                     print('Usuário removido com sucesso.')
             else:
                 print('Senha inválida.')
