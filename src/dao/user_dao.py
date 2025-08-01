@@ -29,6 +29,7 @@ Licença:
 import logging
 import sqlite3
 from typing import Optional
+from models.user import User
 
 
 _USER_TABLE = 'users'
@@ -81,7 +82,7 @@ def dao_create_user(conn: sqlite3.Connection, user_name: str, user_login: str,
 
 
 def dao_read_user(conn: sqlite3.Connection,
-                  user_id: int) -> Optional[tuple]:
+                  user_id: int) -> Optional[dict[str, str]]:
     """
     Recupera um usuário pelo seu ID do banco de dados.
 
@@ -104,7 +105,12 @@ def dao_read_user(conn: sqlite3.Connection,
                 WHERE id = ? """,
             (user_id,)
         )
-        return cursor.fetchone()
+
+        result = cursor.fetchone()
+        if result is not None:
+            return dict(result)
+        return None
+
     except sqlite3.Error:
         logging.exception(f'Ocorreu um erro ao consultar usuário "{user_id}"')
         raise
@@ -114,7 +120,7 @@ def dao_read_user(conn: sqlite3.Connection,
 
 
 def dao_read_user_by_login(conn: sqlite3.Connection,
-                           user_login: str) -> Optional[tuple]:
+                           user_login: str) -> Optional[dict[str, str]]:
     """
     Recupera o usuário pelo login.
     """
@@ -126,7 +132,10 @@ def dao_read_user_by_login(conn: sqlite3.Connection,
                 WHERE login = ?""",
             (user_login,)
         )
-        return cursor.fetchone()
+        result = cursor.fetchone()
+        if result is not None:
+            return dict(result)
+        return None
     except sqlite3.Error:
         logging.exception(f'Erro ao buscar usuário por login: {user_login}')
         raise
