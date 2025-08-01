@@ -63,6 +63,7 @@ def dao_create_user(conn: sqlite3.Connection, user_name: str, user_login: str,
                 VALUES (?, ?, ?)""",
             (user_name, user_login, user_password)
         )
+        conn.commit()
         return cursor.lastrowid
     except sqlite3.IntegrityError:
         conn.rollback()
