@@ -11,11 +11,15 @@ venv/
 # Arquivos temporários e de cache do Python
 # Ignora o cache de bytecode do Python
 __pycache__/
+
 # Ignora arquivos de banco de dados SQLite
 *.db
+
 # Ignora arquivo temporário gerado por algumas extensões do VS Code
 tempCodeRunnerFile.py
 
-# Arquivos de teste e scripts diversos
-# Ignora arquivos de teste, se 'test.py' não for parte essencial do seu repositório
+# Arquivos de teste e scripts diversos.
 test*.py
+
+# Ignorar arquivos de log.
+*.log

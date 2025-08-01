@@ -1,7 +1,13 @@
 from ui import cli_initial_menu, cli_main_menu
-from connection_factory import database_connection
+import logging
 
-database_connection.create_user_table()
+logging.basicConfig(
+    # references https://docs.python.org/3/howto/logging.html
+    filename='debug.log',
+    format='%(asctime)s - %(levelname)s - %(filename)s - %(message)s',
+    level=logging.DEBUG,
+    encoding='utf-8'
+)
 
 funcs = {
     '0': 'Manage Account',
@@ -20,6 +26,7 @@ def main():
     """
     Ponto de entrada da aplicação, função principal de chamada dos menus.
     """
+    logging.info('aplicação inciada.')
     current_user = cli_initial_menu.user_menu()
     cli_main_menu.main_menu(current_user, funcs)
 

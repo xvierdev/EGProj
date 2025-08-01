@@ -20,13 +20,14 @@ Criado em:
     2025-07-17
 
 Versão:
-    1.0.1
+    1.0.2
 
 Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
 import sqlite3
+import logging
 from connection_factory.database_connection import (
     get_db_connection as get_connection
 )
@@ -35,6 +36,7 @@ from typing import Optional
 from models.user import User
 
 _USER_TABLE = 'users'
+logging.getLogger(__name__)
 
 
 def insert_user(user_name: str, user_login: str,
@@ -228,7 +230,9 @@ def update_password(user_id: int, new_password_hash: str) -> bool:
 
 
 def delete_user(user_id: int) -> bool:
-    """Remove um usuário do banco de dados.
+    """
+    Remove um usuário do banco de dados identificado por user_id.
+
     Args:
         user_id (int): O id do usuário a ser removido.
 
@@ -243,12 +247,19 @@ def delete_user(user_id: int) -> bool:
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
-                (user_id,)
-            )
-            return cursor.rowcount > 0
+            try:
+                cursor.execute(
+                    f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
+                    (user_id,)
+                )
+                conn.commit()
+                return cursor.rowcount > 0
+            except sqlite3.Error as e:
+                conn.rollback()
+                logging.error(f'Erro de DB ao remover user "{user_id}": {e}')
     except sqlite3.Error as e:
+        logging.error(f'Erro ao remover user "{user_id}": {e}')
         raise e
     except Exception as e:
+        logging.exception(f'Erro inesperado ao remover user "{user_id}": {e}')
         raise e
