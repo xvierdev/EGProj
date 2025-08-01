@@ -36,7 +36,7 @@ import bcrypt
 from typing import Optional
 from models.user import User
 from dao.user_dao import (
-    get_user_by_login, verify_user_login_exists,
+    get_user_by_login, dao_verify_user_login_exists,
     dao_insert_user, update_password as password_update,
     delete_user
 )
@@ -59,7 +59,7 @@ def create_user(user_name: str, user_login: str,
         requisitos), ou se ocorrer um erro interno.
     """
     error = False
-    if verify_user_login_exists(user_login):
+    if dao_verify_user_login_exists(user_login):
         print(
             "Já existe um usuário com esse login. Por favor, escolha outro."
         )

@@ -26,6 +26,7 @@ Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
+from ast import Tuple
 import logging
 import sqlite3
 from datetime import datetime
@@ -36,6 +37,8 @@ from connection_factory.database_connection import (
 )
 
 _USER_TABLE = 'users'
+
+logging.getLogger(__name__)
 
 
 def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
@@ -65,7 +68,6 @@ def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
                 VALUES (?, ?, ?)""",
             (user_name, user_login, user_password)
         )
-        conn.commit()
         return cursor.lastrowid
     except sqlite3.IntegrityError:
         conn.rollback()
@@ -82,10 +84,13 @@ def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
         raise
 
 
-def get_user_by_id(user_id: int) -> Optional[User]:
-    """Recupera um usuário pelo seu ID do banco de dados.
+def dao_get_user_by_id(conn: sqlite3.Connection,
+                       user_id: int) -> Optional[Tuple]:
+    """
+    Recupera um usuário pelo seu ID do banco de dados.
 
     Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
         user_id (int): O ID único do usuário a ser recuperado.
 
     Returns:
@@ -96,41 +101,44 @@ def get_user_by_id(user_id: int) -> Optional[User]:
         Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
-        with _get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f"""SELECT id, name, login, password, created_at
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""SELECT id, name, login, password, created_at
                 FROM {_USER_TABLE}
                 WHERE id = ? """,
-                (user_id,)
-            )
-            temp_info = cursor.fetchone()
-            if temp_info is None:
-                return None
+            (user_id,)
+        )
+        return cursor.fetchone()
 
-            created_at_str = temp_info['created_at']
-            created_at_dt = datetime.strptime(
-                created_at_str, '%Y-%m-%d %H:%M:%S')
+        # TODO: move this to services level.
+        # created_at_str = temp_info['created_at']
+        # created_at_dt = datetime.strptime(
+        #     created_at_str, '%Y-%m-%d %H:%M:%S')
 
-            user = User(
-                user_id=temp_info['id'],
-                user_login=temp_info['login'],
-                user_name=temp_info['name'],
-                password=temp_info['password'],
-                created_at=created_at_dt
-            )
-            return user
+        # user = User(
+        #     user_id=temp_info['id'],
+        #     user_login=temp_info['login'],
+        #     user_name=temp_info['name'],
+        #     password=temp_info['password'],
+        #     created_at=created_at_dt
+        # )
+        # return user
 
-    except sqlite3.Error as e:
-        raise e
-    except Exception as e:
-        raise e
+    except sqlite3.Error:
+        logging.exception(f'Ocorreu um erro ao consultar usuário {user_id}')
+        raise
+    except Exception:
+        logging.exception(f'Erro inesperado ao consultar usuário {user_id}')
+        raise
 
 
-def verify_user_login_exists(user_login: str) -> bool:
-    """Verifica se um usuário com o login especificado já existe.
+def dao_verify_user_login_exists(conn: sqlite3.Connection,
+                                 user_login: str) -> bool:
+    """
+    Verifica se um usuário com o login especificado já existe.
 
     Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
         user_login (str): O login do usuário a ser verificado.
 
     Returns:
@@ -151,8 +159,10 @@ def verify_user_login_exists(user_login: str) -> bool:
             user_exists = cursor.fetchone() is not None
             return user_exists
     except sqlite3.Error as e:
+        logging.exception(f'Ocorreu um erro na consultar {user_login=}')
         raise e
     except Exception as e:
+        logging.exception(f'Erro inexperado na consulta {user_login=}')
         raise e
 
 
