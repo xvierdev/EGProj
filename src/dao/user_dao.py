@@ -122,6 +122,15 @@ def dao_read_user_by_login(conn: sqlite3.Connection,
                            user_login: str) -> Optional[dict[str, str]]:
     """
     Recupera o usuário pelo login.
+
+    Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
+        user_login(str): O login do usuário.
+
+    Returns:
+        Optional(dict(str, str)):
+            o dicionário mapeando a estrutura do User ou
+            None caso login não seja encontrado no bando de dados.
     """
     try:
         cursor = conn.cursor()
@@ -146,6 +155,7 @@ def dao_update_user(conn: sqlite3.Connection, user_id: int, user_name: str,
     Atualiza a senha (hash) de um usuário existente no banco de dados.
 
     Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
         user_id (int): O ID único do usuário cuja senha será atualizada.
         new_password_hash (str): O novo hash da senha a ser armazenado.
 
@@ -197,6 +207,7 @@ def dao_delete_user(conn: sqlite3.Connection, user_id: int) -> bool:
             f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
             (user_id,)
         )
+        conn.commit()
         return cursor.rowcount > 0
     except sqlite3.Error as e:
         conn.rollback()
