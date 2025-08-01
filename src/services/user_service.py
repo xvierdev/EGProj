@@ -37,7 +37,7 @@ from typing import Optional
 from models.user import User
 from dao.user_dao import (
     get_user_by_login, verify_user_login_exists,
-    insert_user, update_password as password_update,
+    dao_insert_user, update_password as password_update,
     delete_user
 )
 
@@ -90,7 +90,7 @@ def create_user(user_name: str, user_login: str,
             bcrypt.gensalt()
         )
         hashed_password_decoded = hashed_password.decode("utf-8")
-        user_id = insert_user(user_name, user_login, hashed_password_decoded)
+        user_id = dao_insert_user(user_name, user_login, hashed_password_decoded)
         if user_id is not None:
             user = get_user_by_login(user_login)
             return user

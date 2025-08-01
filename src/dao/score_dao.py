@@ -31,7 +31,7 @@ Licença:
 """
 import sqlite3
 from connection_factory.database_connection import (
-    get_db_connection as get_connection
+    get_db_connection as _get_connection
 )
 
 TABLE_NAME = 'scores'
@@ -39,7 +39,7 @@ TABLE_NAME = 'scores'
 
 def create_scores_table():
     """Create the scores table if it does not exist."""
-    conn = get_connection()
+    conn = _get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -63,7 +63,7 @@ def create_scores_table():
 
 def insert_score(user_id, module_id, score):
     """Insert a new score into the scores table."""
-    conn = get_connection()
+    conn = _get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -82,7 +82,7 @@ def insert_score(user_id, module_id, score):
 
 def get_scores(user_id, module_id):
     """Retrieve scores for a specific user and module."""
-    conn = get_connection()
+    conn = _get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -104,7 +104,7 @@ def get_scores(user_id, module_id):
 
 def update_score(user_id, module_id, score):
     """Update the score for a specific user and module."""
-    conn = get_connection()
+    conn = _get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
@@ -124,7 +124,7 @@ def update_score(user_id, module_id, score):
 
 def delete_score(user_id, module_id):
     """Delete the score for a specific user and module."""
-    conn = get_connection()
+    conn = _get_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()

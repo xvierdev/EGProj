@@ -26,22 +26,25 @@ Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
+import logging
 import sqlite3
-from connection_factory.database_connection import (
-    get_db_connection as get_connection
-)
 from datetime import datetime
 from typing import Optional
 from models.user import User
+from connection_factory.database_connection import (
+    get_db_connection as _get_connection
+)
 
 _USER_TABLE = 'users'
 
 
-def insert_user(user_name: str, user_login: str,
-                user_password: str) -> Optional[int]:
-    """Insere um novo usuário na tabela 'users'.
+def dao_insert_user(conn: sqlite3.Connection, user_name: str, user_login: str,
+                    user_password: str) -> Optional[int]:
+    """
+    Insere um novo usuário na table users.
 
     Args:
+        conn (sqlite3.Connection): O objeto de conexão com o DB.
         user_name (str): O nome de exibição do usuário.
         user_login (str): O login único do usuário.
         user_password (str): O hash da senha do usuário.
@@ -56,21 +59,27 @@ def insert_user(user_name: str, user_login: str,
         Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                f"""INSERT INTO {_USER_TABLE} (name, login, password)
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""INSERT INTO {_USER_TABLE} (name, login, password)
                 VALUES (?, ?, ?)""",
-                (user_name, user_login, user_password)
-            )
-            conn.commit()
-            return cursor.lastrowid
-    except sqlite3.IntegrityError as e:
-        raise e
-    except sqlite3.Error as e:
-        raise e
-    except Exception as e:
-        raise e
+            (user_name, user_login, user_password)
+        )
+        conn.commit()
+        return cursor.lastrowid
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        logging.exception(
+            f'Erro de integridade ao inserir usuário. Login: {user_login}')
+        raise
+    except sqlite3.Error:
+        conn.rollback()
+        logging.exception('Erro de banco de dados ao inserir usuário')
+        raise
+    except Exception:
+        conn.rollback()
+        logging.exception('Erro inesperado ao inserir usuário')
+        raise
 
 
 def get_user_by_id(user_id: int) -> Optional[User]:
@@ -87,7 +96,7 @@ def get_user_by_id(user_id: int) -> Optional[User]:
         Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
-        with get_connection() as conn:
+        with _get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f"""SELECT id, name, login, password, created_at
@@ -132,7 +141,7 @@ def verify_user_login_exists(user_login: str) -> bool:
         Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
-        with get_connection() as conn:
+        with _get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f"""SELECT id FROM {_USER_TABLE}
@@ -161,7 +170,7 @@ def get_user_by_login(user_login: str) -> Optional[User]:
         Exception: Para erros inesperados não relacionados ao SQLite.
     """
     try:
-        with get_connection() as conn:
+        with _get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f""" SELECT id, name, login, password, created_at
@@ -211,7 +220,7 @@ def update_password(user_id: int, new_password_hash: str) -> bool:
         Exception: Para outros erros inesperados não relacionados ao SQLite.
     """
     try:
-        with get_connection() as conn:
+        with _get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f"""UPDATE {_USER_TABLE}
@@ -241,7 +250,7 @@ def delete_user(user_id: int) -> bool:
         Exception: Se ocorrer um erro inesperado.
     """
     try:
-        with get_connection() as conn:
+        with _get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f"""DELETE FROM {_USER_TABLE} WHERE id = ?""",
