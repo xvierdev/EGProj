@@ -30,11 +30,13 @@ Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
-
-from datetime import datetime
-import sqlite3
+# external imports
 import bcrypt
+import sqlite3
 from typing import Optional
+from datetime import datetime
+
+# internal imports
 from models.model_user import User
 from connection_factory.database_connection import get_connection
 from dao.dao_user import (
