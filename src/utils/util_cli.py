@@ -1,7 +1,7 @@
 from os import system, name
 from time import sleep
 
-_SLEEPTIME = 0.03
+_SLEEPTIME = 0.02
 
 
 def clear():

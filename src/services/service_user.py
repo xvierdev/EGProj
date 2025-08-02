@@ -35,7 +35,7 @@ from datetime import datetime
 import sqlite3
 import bcrypt
 from typing import Optional
-from models.user import User
+from models.model_user import User
 from connection_factory.database_connection import get_connection
 from dao.user_dao import (
     dao_create_user as _create_user,

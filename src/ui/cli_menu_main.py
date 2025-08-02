@@ -1,20 +1,24 @@
-from models.user import User
+# external imports
 from colorama import Fore, Back, Style, init
-from ui.cli_user_manager import user_account_menu
+
+# internal imports
+from ui.cli_menu_user import user_account_menu
+from utils.util_cli import clear, quit
+from models.model_user import User
+from modules.core import core
+from modules.phrases.interrogation import interrogquest
 from modules import (
     weekdays, number, colors,
     geomtest, pronouns, months
 )
-from modules.core import core
-from modules.phrases.interrogation import interrogquest
-from utils.terminal import clear, quit
 
 
 init(autoreset=True)
 
 
 def main_menu(user: User, funcs: dict[str, str]):
-    """Mostra o menu principal do jogador após autenticação ou entrada
+    """
+    Mostra o menu principal do jogador após autenticação ou entrada
     como usuário convidado, contém as opções para treinar o inglês ou
     gerenciar a própria conta de usuário.
     """

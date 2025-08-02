@@ -1,15 +1,19 @@
-from utils.terminal import clear, quit
+# external imports
 from getpass import getpass
-from models.user import User
-from services.user_service import update_password, delete_user_account
+
+# project imports
+from utils.util_cli import quit  # , clear
+from models.model_user import User
+from services.service_user import update_password, delete_user_account
 
 
 def user_account_menu(user: User):
     if user is None:
         raise ValueError('User cannot be None.')
-    clear()
+    # clear()
     while True:
-        print('Summary\n')
+        print('Summary')
+        print()
         print(f'User name: {user.user_name}')
         print(f'Login: {user.user_login}')
         print(f'Created at: {user.created_at}')
@@ -42,7 +46,7 @@ def user_account_menu(user: User):
                 delete_user_account(user, password)
                 quit()
             case 'R':
-                clear()
+                # clear()
                 break
             case 'Q':
                 quit()
