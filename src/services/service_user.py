@@ -37,7 +37,7 @@ import bcrypt
 from typing import Optional
 from models.model_user import User
 from connection_factory.database_connection import get_connection
-from dao.user_dao import (
+from dao.dao_user import (
     dao_create_user as _create_user,
     dao_read_user_by_login as _read_user_login,
     dao_update_user as _update_user,
