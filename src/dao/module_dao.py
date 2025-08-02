@@ -1,12 +1,12 @@
 import sqlite3
 from typing import Optional
-from connection_factory.database_connection import get_db_connection
+from connection_factory.database_connection import get_connection
 from models.module import Module
 
 
 def insert_module(module: Module):
     try:
-        with get_db_connection() as conn:
+        with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """ INSERT INTO module (module_name, description)
@@ -21,7 +21,7 @@ def insert_module(module: Module):
 
 def get_module(module_name: str) -> Optional[Module]:
     try:
-        with get_db_connection() as conn:
+        with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -59,7 +59,7 @@ def get_module(module_name: str) -> Optional[Module]:
 
 def update_module(module_id: int, module: Module):
     try:
-        with get_db_connection() as conn:
+        with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -85,7 +85,7 @@ def update_module(module_id: int, module: Module):
 
 def delete_module(module_name: str):
     try:
-        with get_db_connection() as conn:
+        with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
             DELETE FROM module WHERE module_name = ?

@@ -29,7 +29,6 @@ Licença:
 import logging
 import sqlite3
 from typing import Optional
-from models.user import User
 
 
 _USER_TABLE = 'users'

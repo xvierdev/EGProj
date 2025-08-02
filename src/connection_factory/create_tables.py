@@ -1,6 +1,6 @@
 import sqlite3
 from pathlib import Path
-from connection_factory.database_connection import get_db_connection as connect
+from connection_factory.database_connection import get_connection as connect
 
 
 def create_tables_by_script(content: str):

@@ -31,7 +31,7 @@ import sqlite3
 _DBNAME = 'egproj.db'
 
 
-def get_db_connection(dbname=_DBNAME) -> sqlite3.Connection:
+def get_connection(dbname=_DBNAME) -> sqlite3.Connection:
     """
     Cria e retorna um objeto de conexão com o banco de dados SQLite.
 

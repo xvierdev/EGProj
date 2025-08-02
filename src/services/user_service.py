@@ -24,21 +24,25 @@ Criado em:
     2025-07-17
 
 Versão:
-    1.0.0
+    1.0.1
 
 Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
 
+from datetime import datetime
 import sqlite3
 import bcrypt
 from typing import Optional
 from models.user import User
+from connection_factory.database_connection import get_connection
 from dao.user_dao import (
-    dao_read_user_by_login, dao_user_exists,
-    dao_create_user, dao_update_user as password_update,
-    dao_delete_user
+    dao_create_user as _create_user,
+    dao_read_user as _read_user,
+    dao_read_user_by_login as _read_user_login,
+    dao_update_user as _update_user,
+    dao_delete_user as _delete_user
 )
 
 
@@ -58,8 +62,9 @@ def create_user(user_name: str, user_login: str,
         falha (login já existe, nome inválido, senha não atende aos
         requisitos), ou se ocorrer um erro interno.
     """
+    conn = get_connection()
     error = False
-    if dao_user_exists(user_login):
+    if _read_user_login(conn, user_login) is not None:
         print(
             "Já existe um usuário com esse login. Por favor, escolha outro."
         )
@@ -90,10 +95,13 @@ def create_user(user_name: str, user_login: str,
             bcrypt.gensalt()
         )
         hashed_password_decoded = hashed_password.decode("utf-8")
-        user_id = dao_create_user(user_name, user_login, hashed_password_decoded)
+        user_id = _create_user(
+            conn, user_name, user_login, hashed_password_decoded)
         if user_id is not None:
-            user = dao_read_user_by_login(user_login)
-            return user
+            user = _read_user_login(conn, user_login)
+            if user is not None:
+                return _make_user(user)
+            return None
     except sqlite3.IntegrityError as e:
         print(f'Ja existe um usuário com esse login: {e}')
     except sqlite3.Error as e:
@@ -114,8 +122,9 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
         Optional[User]: Objeto do usuário recém-criado ou None
         em caso alguma falha.
     """
+    conn = get_connection()
     try:
-        user = dao_read_user_by_login(user_login)
+        user = _read_user_login(conn, user_login)
         if user is None:
             print("Usuário não encontrado. Verifique seu login.")
             return None
@@ -156,6 +165,7 @@ def update_password(user: User, old_password: str, new_password: str):
         bool: True caso a senha seja alterada e False caso contrário.
 
     """
+    conn = get_connection()
     try:
         if user.user_id is not None:
             if _check_password(user, old_password):
@@ -165,7 +175,8 @@ def update_password(user: User, old_password: str, new_password: str):
                     bcrypt.gensalt()
                 )
                 hashed_password_decoded = hashed_password.decode('utf-8')
-                result = password_update(user.user_id, hashed_password_decoded)
+                result = _update_user(conn, user.user_id,
+                                      user.user_name, hashed_password_decoded)
                 if result:
                     user.password = hashed_password_decoded
                     return True
@@ -212,10 +223,11 @@ def delete_user_account(user: User, password: str):
         user (User): O objeto que representa o usuário.
         password (str): A senha atual do usuário.
     """
+    conn = get_connection()
     try:
         if user.user_id is not None:
             if _check_password(user, password):
-                if dao_delete_user(user.user_id):
+                if _delete_user(conn, user.user_id):
                     print('Usuário removido com sucesso.')
             else:
                 print('Senha inválida.')
@@ -223,3 +235,19 @@ def delete_user_account(user: User, password: str):
         print(f'Ocorreu um erro de SQL ao tentar remover usuário: {e}')
     except ValueError as e:
         print(f'Ocorreu um erro inesperado ao tentar remover o usuário {e}')
+
+
+def _make_user(data: dict[str, str]) -> User:
+    # TODO: validate data before return User
+    id_user = data.get('id')
+    id = None
+    if id_user is not None:
+        id = int(id_user)
+    return User(
+        user_id=id,
+        user_name=data.get('name', ''),
+        user_login=data.get('login', ''),
+        password=data.get('password', ''),
+        created_at=datetime.strptime(
+            data['created_at'], 'YYYY-MM-DD HH:MM:SS'),
+    )

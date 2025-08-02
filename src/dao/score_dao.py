@@ -31,7 +31,7 @@ Licença:
 """
 import sqlite3
 from connection_factory.database_connection import (
-    get_db_connection as _get_connection
+    get_connection as _get_connection
 )
 
 TABLE_NAME = 'scores'
