@@ -32,14 +32,21 @@ def main_menu(user: User, funcs: dict[str, str]):
         while True:
             print()
             print(f'{Fore.BLACK}{Back.WHITE}{'Menu':^22}')
-
+            guestUser = user.user_id is None
             for key, value in funcs.items():
+                if guestUser:
+                    if key == '0':
+                        continue
                 print(f'{key} -> {value}')
             choice = input('\n> ').strip().upper()
 
             match choice:
                 case '0':
-                    user_account_menu(user)
+                    if not guestUser:
+                        user_account_menu(user)
+                    else:
+                        clear()
+                        print('Invalid choice. Please try again.')
                 case '1':
                     core(weekdays.WeekdaysTest())
                 case '2':
