@@ -2,7 +2,7 @@ import logging
 import sqlite3
 from typing import Optional
 from connection_factory.database_connection import get_connection
-from models.module import Module
+from models.model_modules import Module
 
 
 def dao_get_all_categories(conn: sqlite3.Connection):

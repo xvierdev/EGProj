@@ -1,9 +1,17 @@
-from pathlib import Path
 import sqlite3
-from ui import cli_initial_menu, cli_main_menu
+import logging
+from pathlib import Path
+from ui import cli_menu_initial, cli_menu_main
 from connection_factory.create_tables import (
     create_tables_by_script,
     get_sql_script_content
+)
+
+logging.basicConfig(
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='debug.log',
+    encoding='utf-8',
+    level=logging.DEBUG
 )
 
 
@@ -29,9 +37,10 @@ def main():
     """
     try:
         script_path = get_sql_script_content(_SCRIPT)
+        logging.debug('abrindo script sql.')
         create_tables_by_script(script_path)
-        current_user = cli_initial_menu.user_menu()
-        cli_main_menu.main_menu(current_user, funcs)
+        current_user = cli_menu_initial.user_menu()
+        cli_menu_main.main_menu(current_user, funcs)
     except (FileNotFoundError, sqlite3.Error) as e:
         print(f'Erro ao criar tabelas: {e}')
 

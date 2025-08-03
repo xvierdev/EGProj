@@ -30,14 +30,16 @@ Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
-
-from datetime import datetime
-import sqlite3
+# external imports
 import bcrypt
+import sqlite3
 from typing import Optional
-from models.user import User
+from datetime import datetime
+
+# internal imports
+from models.model_user import User
 from connection_factory.database_connection import get_connection
-from dao.user_dao import (
+from dao.dao_user import (
     dao_create_user as _create_user,
     dao_read_user_by_login as _read_user_login,
     dao_update_user as _update_user,
@@ -146,17 +148,19 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
 
 
 def guest_user() -> User:
-    """Retorna um usuário convidado com informações genéricas.
+    """
+    Retorna um usuário convidado com informações genéricas.
 
     Returns:
-        User: um objeto do tipo User qeu representa o usuário convidado.
+        User: um objeto do tipo User que representa o usuário convidado.
     """
-    user = User(None, "guest", "guest user", "")
+    user = User(None, 'guest', 'guest user', '')
     return user
 
 
 def update_password(user: User, old_password: str, new_password: str):
-    """Atualiza a senha do usuário.
+    """
+    Atualiza a senha do usuário.
 
     Args:
         user (User): Objeto que representa o usuário.
@@ -201,7 +205,8 @@ def update_password(user: User, old_password: str, new_password: str):
 
 
 def _check_password(user: User, password: str) -> bool:
-    """Médoto interno para checar se a senha do usuário é válida.
+    """
+    Médoto interno para checar se a senha do usuário é válida.
 
     Args:
         user (User): O objeto que representa o usuário.
@@ -223,7 +228,8 @@ def _check_password(user: User, password: str) -> bool:
 
 
 def delete_user_account(user: User, password: str):
-    """Remove a conta do usuário do banco de dados.
+    """
+    Remove a conta do usuário do banco de dados.
 
     Args:
         user (User): O objeto que representa o usuário.
