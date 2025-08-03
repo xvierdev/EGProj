@@ -2,8 +2,8 @@ from models.user import User
 from colorama import Fore, Back, Style, init
 from ui.cli_user_manager import user_account_menu
 from modules import (
-    weekdays, number, colors,
-    geomtest, pronouns, months
+    number,
+    pronouns,
 )
 from modules.core import core
 from modules.phrases.interrogation import interrogquest
@@ -41,17 +41,21 @@ def main_menu(user: User, funcs: dict[str, str]):
                 case '0':
                     user_account_menu(user)
                 case '1':
-                    core(weekdays.WeekdaysTest())
+                    # core(weekdays.WeekdaysTest())
+                    ...
                 case '2':
                     core(number.NumberTest())
                 case '3':
-                    colors.colors()
+                    # colors.colors()
+                    ...
                 case '4':
-                    core(geomtest.GeometryTest())
+                    # core(geomtest.GeometryTest())
+                    ...
                 case '5':
                     core(pronouns.PronounsTest())
                 case '6':
-                    core(months.MonthsTest())
+                    # core(months.MonthsTest())
+                    ...
                 case '7':
                     interrogquest()
                 case 'Q':
