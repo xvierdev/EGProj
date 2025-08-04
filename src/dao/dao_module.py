@@ -1,8 +1,8 @@
 import logging
 import sqlite3
-from typing import Optional
-from connection_factory.database_connection import get_connection
-from models.model_modules import Module
+
+
+logging.getLogger(__name__)
 
 
 def dao_get_all_categories(conn: sqlite3.Connection):
@@ -25,7 +25,7 @@ def dao_get_all_word(conn: sqlite3.Connection, category: str):
         )
         return cursor.fetchall()
     except sqlite3.Error:
-        logging.exception('Erro ao obter palavra por categoria')
+        logging.exception('Erro ao obter as palavras')
 
 
 def dao_get_one_random_word(conn: sqlite3.Connection, category: str):
@@ -41,15 +41,4 @@ def dao_get_one_random_word(conn: sqlite3.Connection, category: str):
         )
         return cursor.fetchone()
     except sqlite3.Error:
-        logging.exception('Erro ao obter palavra por categoria')
-
-
-# if __name__ == '__main__':
-#     with sqlite3.connect('egproj.db') as conn:
-#         words = dao_get_all_word_by_category(conn, 'verbs')
-#         for word in words:
-#             print(word)
-#         # data = dao_get_all_categories(conn)
-#         # print(type(data))
-#         # for i in data:
-#         #     print(i)
+        logging.exception('Erro ao obter uma palavra aleatória')

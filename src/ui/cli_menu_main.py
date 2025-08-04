@@ -1,4 +1,5 @@
 # external imports
+from statistics import geometric_mean
 from colorama import Fore, Back, Style, init
 
 # internal imports
@@ -52,21 +53,19 @@ def main_menu(user: User, funcs: dict[str, str]):
                         clear()
                         print('Invalid choice. Please try again.')
                 case '1':
-                    # core(weekdays.WeekdaysTest())
-                    ...
+                    core('weekdays')
                 case '2':
                     core(number.NumberTest())
                 case '3':
-                    # colors.colors()
-                    ...
+                    core('colors')
                 case '4':
-                    # core(geomtest.GeometryTest())
-                    ...
+                    core('geometric forms')
                 case '5':
-                    core(pronouns.PronounsTest())
-                case '6':
-                    # core(months.MonthsTest())
+                    print('temporary disabled.')
+                    # core(pronouns.PronounsTest())
                     ...
+                case '6':
+                    core('months')
                 case '7':
                     interrogquest()
                 case 'Q':

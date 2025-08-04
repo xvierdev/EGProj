@@ -1,17 +1,22 @@
-def core(quiz):
+from services.service_module import Vocabulary
+
+
+def core(quiz: str):
     points = 0
     print(quiz)
+    new_quiz = Vocabulary(quiz)
     while True:
         try:
-            selected = quiz.get_opt()
-            print('Translate ' + selected)
-            if quiz.verify_answer(selected, input('Your answer: ')):
+            pt_br, en_us = new_quiz.get_random_words()
+            print(f'Translate the "{en_us}"')
+            answer = input('> ').strip()
+            if answer == pt_br:
                 points += 1
-                print("Correct!")
+                print(f'Correct! {points=}')
             else:
-                print("Incorrect!")
+                print(f'Wrong, corrent is "{pt_br}"')
             if not ask_play_again():
-                return points
+                break
         except KeyboardInterrupt:
             return points
 
