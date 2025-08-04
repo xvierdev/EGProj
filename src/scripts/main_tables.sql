@@ -179,4 +179,16 @@ VALUES
   (121, 'verbs', 'cantar', 'to sing'),
   (122, 'verbs', 'dançar', 'to dance'),
   (123, 'verbs', 'cozinhar', 'to cook'),
-  (124, 'verbs', 'lavar', 'to wash');
+  (124, 'verbs', 'lavar', 'to wash'),
+  (125, 'months', 'janeiro', 'January'),
+  (126, 'months', 'fevereiro', 'February'),
+  (127, 'months', 'março', 'March'),
+  (128, 'months', 'abril', 'April'),
+  (129, 'months', 'maio', 'May'),
+  (130, 'months', 'junho', 'June'),
+  (131, 'months', 'julho', 'July'),
+  (132, 'months', 'agosto', 'August'),
+  (133, 'months', 'setembro', 'September'),
+  (134, 'months', 'outubro', 'October'),
+  (135, 'months', 'novembro', 'November'),
+  (136, 'months', 'dezembro', 'December');

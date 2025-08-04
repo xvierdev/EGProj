@@ -33,6 +33,7 @@ Licença:
 # external imports
 import bcrypt
 import sqlite3
+import logging
 from typing import Optional
 from datetime import datetime
 
@@ -45,6 +46,8 @@ from dao.dao_user import (
     dao_update_user as _update_user,
     dao_delete_user as _delete_user
 )
+
+logging.getLogger(__name__)
 
 
 def create_user(user_name: str, user_login: str,
@@ -106,10 +109,13 @@ def create_user(user_name: str, user_login: str,
                     return _make_user(user)
                 return None
     except sqlite3.IntegrityError as e:
+        logging.error(e)
         print(f'Ja existe um usuário com o "{user_login=}": {e}')
     except sqlite3.Error as e:
+        logging.error(e)
         print(f'Ocorreu um erro de SQL ao inserir "{user_login=}": {e}')
     except Exception as e:
+        logging.error(e)
         print(f'Ocorreu um inesperado na criação de "{user_login=}": {e}')
 
 
@@ -140,10 +146,13 @@ def authenticate_user(user_login: str, password: str) -> Optional[User]:
                 print("Senha inválida. Por favor, tente novamente.")
                 return None
     except sqlite3.Error as e:
+        logging.error(e)
         print(f'Ocorreu um erro de SQL ao consultar usuário: {e}')
     except ValueError as e:
+        logging.error(e)
         print(f'Erro ao verificar a senha do usuário: {e}')
     except Exception as e:
+        logging.error(e)
         print(f'Ocorreu um erro inesperado ao consultar usuário: {e}')
 
 
@@ -197,10 +206,13 @@ def update_password(user: User, old_password: str, new_password: str):
             else:
                 print(f'Erro: id nula para o usuário "{user.user_name}"')
     except sqlite3.Error as e:
+        logging.error(e)
         print(f'Ocorreu um erro de SQL ao atualizar a senha: {e}')
     except ValueError as e:
+        logging.error(e)
         print(f'Erro {e}')
     except Exception as e:
+        logging.error(e)
         print(f'Ocorreu um erro inesperado ao atualizar a senha: {e}')
 
 
@@ -244,8 +256,10 @@ def delete_user_account(user: User, password: str):
                 else:
                     print('Senha inválida.')
     except sqlite3.Error as e:
+        logging.error(e)
         print(f'Ocorreu um erro de SQL ao tentar remover usuário: {e}')
     except ValueError as e:
+        logging.error(e)
         print(f'Ocorreu um erro inesperado ao tentar remover o usuário {e}')
 
 

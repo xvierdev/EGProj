@@ -15,7 +15,7 @@ def create_tables_by_script(content: str):
         Uma string contendo um ou mais comandos SQL para a criação de tabelas.
 
     Raises:
-        e: Possíveis erros na execussão do script fornecido.
+        sqlite3.Error: Possíveis erros na execussão do script fornecido.
     """
 
     if content == '':
@@ -51,11 +51,14 @@ def get_sql_script_content(path: Path) -> str:
     """
 
     if not path.is_file():
-        raise FileNotFoundError(f"Arquivo não encontrado no caminho: {path}")
+        msg = f'Arquivo não encontrado: {path}. Nome inválido?'
+        logging.error(msg)
+        raise FileNotFoundError(msg)
 
     try:
         with open(path, encoding='utf-8') as file:
             logging.debug('Script encontrado f{path}')
             return file.read()
     except IOError as e:
-        raise e
+        logging.error(f'Erro de IO: {e}')
+        raise

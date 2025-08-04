@@ -1,20 +1,18 @@
 # external imports
-from statistics import geometric_mean
+import logging
 from colorama import Fore, Back, Style, init
 
-# internal imports
+# project imports
 from ui.cli_menu_user import user_account_menu
-from utils.util_cli import clear, quit
+from utils.util_cli import quit  # , clear
 from models.model_user import User
 from modules.core import core
 from modules.phrases.interrogation import interrogquest
-from modules import (
-    number,
-    pronouns,
-)
+# from modules import number
 
 
 init(autoreset=True)
+logging.getLogger(__name__)
 
 
 def main_menu(user: User, funcs: dict[str, str]):
@@ -24,8 +22,9 @@ def main_menu(user: User, funcs: dict[str, str]):
     gerenciar a própria conta de usuário.
     """
     if user is None:
-        print('User is not valid.')
-        return
+        msg_err = 'usuário inválido'
+        logging.error(msg_err)
+        raise ValueError(msg_err)
     user_name = user.user_name
     print(f'{Fore.YELLOW}{user_name}, welcome to the English App!')
     print(
@@ -50,20 +49,20 @@ def main_menu(user: User, funcs: dict[str, str]):
                     if not guestUser:
                         user_account_menu(user)
                     else:
-                        clear()
+                        # clear()
                         print('Invalid choice. Please try again.')
                 case '1':
                     core('weekdays')
                 case '2':
-                    core(number.NumberTest())
+                    print('temporary disabled.')  # TODO: implementar isto
+                    # core(number.NumberTest())
                 case '3':
                     core('colors')
                 case '4':
                     core('geometric forms')
                 case '5':
-                    print('temporary disabled.')
+                    print('temporary disabled.')  # TODO: implementar isto
                     # core(pronouns.PronounsTest())
-                    ...
                 case '6':
                     core('months')
                 case '7':
@@ -71,7 +70,8 @@ def main_menu(user: User, funcs: dict[str, str]):
                 case 'Q':
                     quit()
                 case _:
-                    clear()
+                    # clear()
                     print('Invalid choice. Please try again.')
     except KeyboardInterrupt:
+        logging.info('programa finalizado pelo usuário')
         print('\nExiting the program.')
