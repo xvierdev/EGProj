@@ -20,13 +20,16 @@ Criado em:
     2025-07-17
 
 Versão:
-    1.0.0
+    1.0.1
 
 Licença:
     MIT License
     Copyright (c) 2025 ProStudents Ltda.
 """
 import sqlite3
+import logging
+
+logging.getLogger(__name__)
 
 _DBNAME = 'egproj.db'
 
@@ -51,7 +54,8 @@ def get_connection(dbname=_DBNAME) -> sqlite3.Connection:
     try:
         conn = sqlite3.connect(dbname)
         conn.row_factory = sqlite3.Row
+        logging.debug(f'Retornando conexão com {dbname}')
         return conn
     except sqlite3.Error as e:
-        print(f"Erro ao conectar ao banco de dados '{dbname}': {e}")
+        logging.error(f"Erro ao conectar ao banco de dados '{dbname}': {e}")
         raise
