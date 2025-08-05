@@ -22,14 +22,14 @@ _SCRIPT = (Path(__file__).parent / 'scripts' / 'main_tables.sql').resolve()
 
 
 funcs = {
-    '0': 'Manage Account',
+    '0': 'Manage Account :key:',
     '1': 'Weekdays',
     '2': 'Numbers',
     '3': 'Colors',
     '4': 'Geometry',
     '5': 'Pronouns',
     '6': 'Months',
-    '7': 'Interrogative forms',
+    '7': 'Interrogative forms :glowing_star:',
     'Q': 'Quit',
 }
 
@@ -51,6 +51,9 @@ def main():
         msg_err = f'Erro ao criar tabelas: {e}'
         logging.error(msg_err)
         print(f'Erro ao criar tabelas: {msg_err}')
+    except KeyboardInterrupt:
+        logging.info('finalizado pelo usuário')
+        print('bye...')
 
 
 if __name__ == '__main__':

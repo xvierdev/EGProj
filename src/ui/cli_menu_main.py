@@ -1,6 +1,6 @@
 # external imports
 import logging
-from colorama import Fore, Back, Style, init
+from rich import print
 
 # project imports
 from ui.cli_menu_user import user_account_menu
@@ -11,7 +11,6 @@ from modules.phrases.interrogation import interrogquest
 # from modules import number
 
 
-init(autoreset=True)
 logging.getLogger(__name__)
 
 
@@ -26,16 +25,13 @@ def main_menu(user: User, funcs: dict[str, str]):
         logging.error(msg_err)
         raise ValueError(msg_err)
     user_name = user.user_name
-    print(f'{Fore.YELLOW}{user_name}, welcome to the English App!')
     print(
-        f'Press {Fore.CYAN} Ctrl + C',
-        f'{Fore.RESET} to {Style.BRIGHT} exit',
-        f'{Style.RESET_ALL} at any time.',
-    )
+        f'[orange1]{user_name}[/orange1], [yellow]welcome to the English App!')
+    print('Press [cyan] Ctrl + C[/cyan] to [red]exit[/red] at any time.')
     try:
         while True:
             print()
-            print(f'{Fore.BLACK}{Back.WHITE}{'Menu':^22}')
+            print(f'[black on white]{'Menu':^22}')
             guestUser = user.user_id is None
             for key, value in funcs.items():
                 if guestUser:
@@ -74,4 +70,4 @@ def main_menu(user: User, funcs: dict[str, str]):
                     print('Invalid choice. Please try again.')
     except KeyboardInterrupt:
         logging.info('programa finalizado pelo usuário')
-        print('\nExiting the program.')
+        print('\nExiting the program :zzz:')

@@ -1,5 +1,6 @@
 # external imports
 from getpass import getpass
+from rich import print
 
 # project imports
 from utils.util_cli import quit  # , clear
@@ -12,16 +13,16 @@ def user_account_menu(user: User):
         raise ValueError('User cannot be None.')
     # clear()
     while True:
-        print('Summary')
+        print('[orange1]Summary')
         print()
-        print(f'User name: {user.user_name}')
-        print(f'Login: {user.user_login}')
-        print(f'Created at: {user.created_at}')
-        print('\nChoose one option:\n')
-        print('1 > Choose your password')
-        print('2 > Delete your account')
-        print('R > Return to back menu')
-        print('Q > Quit')
+        print(f'[yellow]User name: {user.user_name}')
+        print(f'[yellow]Login: {user.user_login}')
+        print(f'[yellow]Created at: {user.created_at}')
+        print('\n[orange1]Choose one option:\n')
+        print('1 > Choose your password :key:')
+        print('2 > Delete your account :toilet:')
+        print('R > Return to back menu :wine_glass:')
+        print('Q > Quit :zzz:')
         option = input('\n> ').strip().upper()[0]
 
         match option:

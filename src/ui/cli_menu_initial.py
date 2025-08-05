@@ -1,5 +1,7 @@
 # external imports
 from getpass import getpass
+from time import sleep
+from rich import print as rprint
 
 # internal imports
 from models.model_user import User
@@ -16,33 +18,43 @@ def user_menu() -> User:
     Returns:
         User: retorna o objeto do tipo User que representa o usuário atual.
     """
+    options = ['1 -> Login :smiley:', '2 -> Create new account :seedling:',
+               '3 -> Guest user :sparkles:', 'Q -> Quit :frowning:']
     user = None
     # clear()
-    print('Welcome to the English App in Command Line Interface!')
-    while True:
-        print('\nChoose your option:\n')
-        print('\n1 -> Login\n2 -> Create new account',
-              '\n3 -> Guest user\nQ -> Quit\n')
-        option = None
-        read_option = input('> ').strip().upper()
-        if read_option is not None and len(read_option) > 0:
-            option = read_option[0]
-        # clear()
-        if option == '1':
-            login = input('User: ')
-            password = getpass('Password: ')
-            user = authenticate_user(login, password)
-        elif option == '2':
-            name = input('Your name: ')
-            login = input('User login: ')
-            password = getpass('Your password: ')
-            user = create_user(name, login, password)
-        elif option == '3':
-            user = guest_user()
-        elif option == 'Q':
-            quit()
-        else:
-            print('Invalid option.')
-        if user is not None:
+    rprint('[italic yellow]Welcome to the English App',
+           '[italic yellow]in Command Line Interface!')
+    try:
+        while True:
+            rprint('\n[bold orange1]Choose your option:')
+            print()
+
+            for option in options:
+                rprint(f'[bold dark_orange]{option}')
+                sleep(0.2)
+            option = None
+            print()
+            read_option = input('> ').strip().upper()
+            if read_option is not None and len(read_option) > 0:
+                option = read_option[0]
             # clear()
-            return user
+            if option == '1':
+                login = input('User: ')
+                password = getpass('Password: ')
+                user = authenticate_user(login, password)
+            elif option == '2':
+                name = input('Your name: ')
+                login = input('User login: ')
+                password = getpass('Your password: ')
+                user = create_user(name, login, password)
+            elif option == '3':
+                user = guest_user()
+            elif option == 'Q':
+                quit()
+            else:
+                print('Invalid option.')
+            if user is not None:
+                # clear()
+                return user
+    except KeyboardInterrupt:
+        raise

@@ -1,5 +1,6 @@
 from os import system, name
 from time import sleep
+from rich import print
 
 _SLEEPTIME = 0.02
 
@@ -16,8 +17,9 @@ def quit():
     """
     Encerra o programa com uma mensagem amigável ao usuário.
     """
-    exit_msg = '\nThanks for using the English App! See you next time.\n'
+    exit_msg = '\nThanks for using the English App! See you next time'
     for letter in exit_msg:
-        print(letter, end='')
+        print(f'[italic yellow]{letter}', end='')
         sleep(_SLEEPTIME)
+    print(' :zzz:')
     exit()
