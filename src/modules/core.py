@@ -1,31 +1,49 @@
 import logging
+from rich import print
+from time import sleep
+from typing import Optional
 from services.service_module import Vocabulary
 
 logging.getLogger(__name__)
 
 
-def core(quiz: str):
+def core(quiz_name: str) -> Optional[int]:
     points = 0
-    print(quiz)
-    new_quiz = Vocabulary(quiz)
+    print(quiz_name)
+    new_quiz = Vocabulary(quiz_name)
     while True:
         try:
-            result = new_quiz.get_random_words()
-            if result is not None:
-                pt_br, en_us = result
-                print(f'Translate the "{en_us}"')
-                answer = input('> ').strip()
-                if answer == pt_br:
-                    points += 1
-                    print(f'Correct! {points=}')
+            for i in range(10):
+                result = new_quiz.get_random_words()
+                if result is not None:
+                    pt_br, en_us = result
+                    print(f'[bold]Translate the {en_us} to portuguese.')
+                    answer = input('> ').strip()
+                    if answer == pt_br:
+                        points += 1
+                        print(f'[yellow]Correct! {points=}')
+                    else:
+                        print(f'[red]Wrong, corrent is "{pt_br}"')
                 else:
-                    print(f'Wrong, corrent is "{pt_br}"')
-                if not ask_play_again():
-                    break
-            else:
-                msg_err = 'categoria {quit} não exitente na database'
-                logging.error(msg_err)
-                raise ValueError(msg_err)
+                    msg_err = f'categoria {quiz_name} não exitente na database'
+                    logging.error(msg_err)
+                    raise ValueError(msg_err)
+            for i in range(10):
+                result = new_quiz.get_random_words()
+                if result is not None:
+                    pt_br, en_us = result
+                    print(f'[bold]Translate {pt_br} to english')
+                    answer = input('> ').strip()
+                    if answer == en_us:
+                        points += 1
+                        print(f'[yellow]Correts! {points=}')
+                    else:
+                        print(f'[red]Wrong, correct is "{en_us}"')
+            if not ask_play_again():
+                print(f'[orange1]Congratulations, you have a {points} points')
+                sleep(2)
+                return points
+
         except KeyboardInterrupt:
             return points
 
@@ -33,9 +51,6 @@ def core(quiz: str):
 def ask_play_again():
     """
     Pergunta ao usuário se ele quer continuar o jogo.
-
-    Solicita ao usuário para digitar 'y' para sim ou 'n' para não.
-    Qualquer entrada diferente de 'n' é interpretada como 'sim'.
 
     Returns:
         bool: False se o usuário digitar 'n', True caso contrário.
