@@ -1,6 +1,8 @@
 bcrypt==4.3.0
+docopt==0.6.2
 markdown-it-py==3.0.0
 mdurl==0.1.2
+num2words==0.5.14
 pygame==2.6.1
 Pygments==2.19.2
 rich==14.1.0
