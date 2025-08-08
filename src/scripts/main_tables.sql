@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS words (
   category VARCHAR(50),
   br_word VARCHAR(80),
   en_word VARCHAR(80),
-  FOREIGN KEY (category) REFERENCES categories (name)
+  FOREIGN KEY (category) REFERENCES categories (category)
 );
 
 -- Inserir as categorias na tabela 'categories'
