@@ -8,11 +8,17 @@ from gtts import gTTS
 logging.getLogger(__name__)
 
 
-def play(text: str):
+def play(text: str) -> None:
+    """
+    Sintetiza o texto em voz e o reproduz utilizando a biblioteca gtts.
+
+    Args:
+        text (str): O texto em inglês a ser sintetizado e reproduzido.
+    """
     try:
         pygame.mixer.init()
     except pygame.error as e:
-        logging.error(f'Erro ao inicializa o pygame.mixer:{e}')
+        logging.error(f'Erro ao inicializar o pygame.mixer: {e}')
         raise
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
