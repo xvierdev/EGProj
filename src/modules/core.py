@@ -1,8 +1,10 @@
+from cmath import phase
 import logging
 from rich import print
 from time import sleep
 from typing import Optional
 from services.service_module import Vocabulary
+from utils.play_text import play
 
 logging.getLogger(__name__)
 
@@ -17,7 +19,9 @@ def core(quiz_name: str) -> Optional[int]:
                 result = new_quiz.get_random_words()
                 if result is not None:
                     pt_br, en_us = result
-                    print(f'[bold]Translate the {en_us} to portuguese.')
+                    phrase = f'Translate the {en_us} to portuguese.'
+                    print(f'[bold]{phrase}')
+                    play(phrase)
                     answer = input('> ').strip()
                     if answer == pt_br:
                         points += 1
@@ -32,7 +36,9 @@ def core(quiz_name: str) -> Optional[int]:
                 result = new_quiz.get_random_words()
                 if result is not None:
                     pt_br, en_us = result
-                    print(f'[bold]Translate {pt_br} to english')
+                    phrase = f'Translate {pt_br} to english'
+                    print(f'[bold]{phrase}')
+                    play(phrase)
                     answer = input('> ').strip()
                     if answer == en_us:
                         points += 1
