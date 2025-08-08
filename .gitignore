@@ -14,6 +14,9 @@ __pycache__/
 # Ignora arquivos de banco de dados SQLite
 *.db
 
+# Ignora arquivos .env
+.env
+
 # Ignora arquivo temporário gerado por algumas extensões do VS Code
 tempCodeRunnerFile.py
 
