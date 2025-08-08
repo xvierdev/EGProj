@@ -10,9 +10,9 @@ Este projeto foi desenvolvido de forma colaborativa para servir como uma ferrame
 
 ## 🧭 Navegação
 
-* [Visão Geral](#-visão-geral)
+* [Visão Geral](#visao-geral)
 * [✨ Funcionalidades](#-funcionalidades)
-* [🛠️ Tecnologias Utilizadas](#-tecnologias-utilizadas)
+* [🛠️ Tecnologias Utilizadas](#tecnologias-utilizadas)
 * [⚙️ Instalação e Uso](#-instalação-e-uso)
 * [🤝 Como Contribuir](#-como-contribuir)
 * [🏆 Colaboradores](#-colaboradores)
@@ -21,11 +21,11 @@ Este projeto foi desenvolvido de forma colaborativa para servir como uma ferrame
 * [📝 Product Backlog](/docs/backlog.md)
 * [🌐 Blog do Projeto](https://xvierdev.github.io/EGProj/)
 
-## 🖼️ Visão Geral
+<!-- ## 🖼️ Visão Geral
 
-![Gif de Demonstração da Aplicação](https://via.placeholder.com/800x400.png?text=Adicione+um+GIF+da+sua+aplica%C3%A7%C3%A3o+aqui!)
+![Gif de Demonstração da Aplicação](https://via.placeholder.com/800x400.png?text=Adicione+um+GIF+da+sua+aplica%C3%A7%C3%A3o+aqui!) -->
 
-*(Sugestão: Grave um GIF curto da aplicação em uso e substitua o link da imagem acima. Isso aumenta muito o apelo visual do projeto!)*
+<!-- *(Sugestão: Grave um GIF curto da aplicação em uso e substitua o link da imagem acima. Isso aumenta muito o apelo visual do projeto!)* -->
 
 ## ✨ Funcionalidades
 
