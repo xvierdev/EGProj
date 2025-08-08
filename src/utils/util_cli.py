@@ -17,7 +17,7 @@ def quit():
     """
     Encerra o programa com uma mensagem amigável ao usuário.
     """
-    exit_msg = '\nThanks for using the English App! See you next time'
+    exit_msg = '\nThanks for using the English App! See you next time!'
     for letter in exit_msg:
         print(f'[italic yellow]{letter}', end='')
         sleep(_SLEEPTIME)
