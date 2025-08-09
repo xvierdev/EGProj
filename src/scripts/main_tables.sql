@@ -1,67 +1,60 @@
 -- Cria a tabela de armazenamento de usuários
-CREATE TABLE
-  IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    login TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  login TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Tabela de armazenamento de módulos
-CREATE TABLE
-  IF NOT EXISTS module (
-    module_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    module_name TEXT UNIQUE NOT NULL,
-    description TEXT,
-    count_total_access INTEGER NOT NULL DEFAULT 0,
-    record_user_id INTEGER,
-    record_value INTEGER DEFAULT 0,
-    record_datetime TIMESTAMP,
-    FOREIGN KEY (record_user_id) REFERENCES user (id)
-  );
+CREATE TABLE IF NOT EXISTS module (
+  module_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  module_name TEXT UNIQUE NOT NULL,
+  description TEXT,
+  count_total_access INTEGER NOT NULL DEFAULT 0,
+  record_user_id INTEGER,
+  record_value INTEGER DEFAULT 0,
+  record_datetime TIMESTAMP,
+  FOREIGN KEY (record_user_id) REFERENCES user (id)
+);
 
 -- Tabela de armazenamento dos scores do usuário.
-CREATE TABLE
-  IF NOT EXISTS score (
-    user_id INTEGER NOT NULL,
-    module_id INTEGER NOT NULL,
-    total_score INTEGER NOT NULL DEFAULT 0,
-    count_access INTEGER NOT NULL DEFAULT 1,
-    record INTEGER DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES user (id),
-    FOREIGN KEY (module_id) REFERENCES module (module_id)
-  );
+CREATE TABLE IF NOT EXISTS score (
+  user_id INTEGER NOT NULL,
+  module_id INTEGER NOT NULL,
+  total_score INTEGER NOT NULL DEFAULT 0,
+  count_access INTEGER NOT NULL DEFAULT 1,
+  record INTEGER DEFAULT 0,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (module_id) REFERENCES module (module_id)
+);
 
 -- Tabela de definição das categorias de palavras.
-CREATE TABLE
-  IF NOT EXISTS categories (category VARCHAR(50) PRIMARY KEY);
+CREATE TABLE IF NOT EXISTS categories (category VARCHAR(50) PRIMARY KEY);
 
 -- Tabela de definição da estrutura das palavras.
-CREATE TABLE
-  IF NOT EXISTS words (
-    id INTEGER PRIMARY KEY,
-    category VARCHAR(50),
-    br_word VARCHAR(80),
-    en_word VARCHAR(80),
-    FOREIGN KEY (category) REFERENCES categories (category)
-  );
+CREATE TABLE IF NOT EXISTS words (
+  id INTEGER PRIMARY KEY,
+  category VARCHAR(50),
+  br_word VARCHAR(80),
+  en_word VARCHAR(80),
+  FOREIGN KEY (category) REFERENCES categories (category)
+);
 
-CREATE TABLE
-  IF NOT EXISTS phrases (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_alternative INTEGER,
-    phrase VARCHAR(1000),
-    FOREIGN KEY (id_alternative) REFERENCES alternatives (id)
-  );
+CREATE TABLE IF NOT EXISTS phrases (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id_alternative INTEGER,
+  phrase VARCHAR(1000),
+  FOREIGN KEY (id_alternative) REFERENCES alternatives (id)
+);
 
-CREATE TABLE
-  IF NOT EXISTS alternatives (
-    ids INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_question INTEGER,
-    alternative VARCHAR(1000),
-    FOREIGN KEY (id_question) REFERENCES phrases (id)
-  );
+CREATE TABLE IF NOT EXISTS alternatives (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id_question INTEGER,
+  alternative VARCHAR(1000),
+  FOREIGN KEY (id_question) REFERENCES phrases (id)
+);
 
 -- Inserir as categorias na tabela 'categories'
 INSERT
@@ -215,18 +208,32 @@ VALUES
   (136, 'months', 'dezembro', 'December');
 
 -- pupulando frases
-INSERT INTO
-  phrases (phrase)
+INSERT
+OR IGNORE INTO phrases (id, phrase)
 VALUES
-  ('John watches Breaking Bad.'),
-  ('Marco lives in Japan.'),
-  ('Mariene plays volleyball.'),
-  ('Sam likes to play videogames.'),
-  ('Olivia will travel to Italy.'),
-  ('Josh eats an apple every day.'),
-  ('Tyler wants to travel.'),
-  ('Edwin is making an animatronic.'),
-  ('Kendrick is cooking.'),
-  ("He's taking his dog for a walk."),
-  ('They are going to build a mall.'),
-  ('Chris and Joseph are going to school.');
+  (1, 'John watches Breaking Bad.'),
+  (2, 'Marco lives in Japan.'),
+  (3, 'Mariene plays volleyball.'),
+  (4, 'Sam likes to play videogames.'),
+  (5, 'Olivia will travel to Italy.'),
+  (6, 'Josh eats an apple every day.'),
+  (7, 'Tyler wants to travel.'),
+  (8, 'Edwin is making an animatronic.'),
+  (9, 'Kendrick is cooking.'),
+  (10, "He's taking his dog for a walk."),
+  (11, 'They are going to build a mall.'),
+  (12, 'Chris and Joseph are going to school.');
+
+INSERT
+OR IGNORE INTO alternatives (id, id_question, alternative)
+VALUES
+  (1, 1, 'Does John watch Breaking Bad?'),
+  (2, 1, 'Watches John Breaking Bad?'),
+  (3, 1, 'Breaking Bad John watches?'),
+  (4, 1, 'Does John watches Breaking Bad?');
+
+UPDATE phrases
+SET
+  id_alternative = 1
+WHERE
+  id = 1;
