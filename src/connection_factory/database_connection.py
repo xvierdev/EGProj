@@ -52,7 +52,7 @@ def get_connection(dbname=_DBNAME) -> sqlite3.Connection:
     try:
         conn = sqlite3.connect(dbname)
         conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
+        # conn.execute("PRAGMA foreign_keys = ON")
         logging.debug(f'Retornando conexão com {dbname}')
         return conn
     except sqlite3.Error as e:
